@@ -10,9 +10,9 @@ extern "C" {
  * This file contains MapGen's configurations
  */
 
-#define MAPGEN_VERSION_MAJOR 0
-#define MAPGEN_VERSION_MINOR 1
-#define MAPGEN_VERSION_PATCH 0
+#define MAPGEN_VERSION_MAJOR ${PROJECT_VERSION_MAJOR}
+#define MAPGEN_VERSION_MINOR ${PROJECT_VERSION_MINOR}
+#define MAPGEN_VERSION_PATCH ${PROJECT_VERSION_PATCH}
 
 #ifdef __cplusplus
 }
