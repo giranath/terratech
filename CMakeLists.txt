@@ -21,6 +21,8 @@ add_library(mapgen
 	"${ROOT}/include/ppm.h"
 	"${ROOT}/include/rgb.h"
 	"${ROOT}/src/mapgen_api.cpp"
+	"${ROOT}/src/perlin_noise.cpp"
+	"${ROOT}/include/perlin_noise.h"
 )
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
