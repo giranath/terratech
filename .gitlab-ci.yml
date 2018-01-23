@@ -59,5 +59,9 @@ doc:generate api:
   script:
     - cmake -E chdir build-doc cmake -DBUILD_DOC=ON ..
     - cmake -E chdir build-doc cmake --build . --target doc
+  artifacts:
+    paths:
+      - build-doc/gnerated_doc
+    expire_in: 1 week
   tags:
     - documentation
