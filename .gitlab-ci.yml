@@ -61,7 +61,7 @@ doc:generate api:
     - cmake -E chdir build-doc cmake --build . --target doc
   artifacts:
     paths:
-      - build-doc/gnerated_doc
+      - build-doc/generated_doc
     expire_in: 1 week
   tags:
     - documentation
