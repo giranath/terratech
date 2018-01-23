@@ -5,7 +5,7 @@ build:linux:
   stage: build
   before_script:
     - cmake -E remove_directory build-debug
-    - cmake -E build-debug
+    - cmake -E make_directory build-debug
   script:
     - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
@@ -20,7 +20,7 @@ build:windows:
   stage: build
   before_script:
     - cmake -E remove_directory build-debug
-    - cmake -E build-debug
+    - cmake -E make_directory build-debug
   script:
     - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
