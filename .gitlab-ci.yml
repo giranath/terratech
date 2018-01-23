@@ -27,10 +27,7 @@ build:osx:
   tags:
     - osx
 build:linux:gcc:
-  stage: build
-  before_script:
-    - cmake -E remove_directory build-debug
-    - cmake -E make_directory build-debug
+  <<: *build_definition
   script:
     - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
@@ -40,12 +37,8 @@ build:linux:gcc:
     expire_in: 1 week
   tags:
     - linux
-  allow_failure: false
 build:linux:clang:
-  stage: build
-  before_script:
-    - cmake -E remove_directory build-debug
-    - cmake -E make_directory build-debug
+  <<: *build_definition
   script:
     - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
@@ -55,7 +48,6 @@ build:linux:clang:
     expire_in: 1 week
   tags:
     - linux
-  allow_failure: false
 build:windows:
   <<: *build_definition
   artifacts:
