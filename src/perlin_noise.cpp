@@ -5,7 +5,7 @@
 
 #include "../include/perlin_noise.h"
 
-Perlin_noise::Perlin_noise(const uint32_t& seed_value = std::default_random_engine::default_seed)
+Perlin_noise::Perlin_noise(const uint32_t& seed_value)
 {
     seed(seed_value);
 }
