@@ -1,18 +1,18 @@
-#ifndef DEF_PGM_H
-#define DEF_PGM_H
+#ifndef DEF_PPM_H
+#define DEF_PPM_H
 
-#include <cstdint>
 #include <vector>
-#include <fstream>
 #include <sstream>
+#include <fstream>
 
+#include "rgb.h"
 
-struct pgm
+struct ppm
 {
-    pgm(const std::vector < std::vector<uint8_t>>& data) : data(data), heigth(data.front().size()), width(data.size()) {}
+    ppm(const std::vector < std::vector<rgb>>& data) : data(data), heigth(data.front().size()), width(data.size()) {}
     size_t width;
     size_t heigth;
-    std::vector < std::vector<uint8_t>> data;
+    std::vector < std::vector<rgb>> data;
 
     void write(std::string path)
     {
@@ -24,7 +24,7 @@ struct pgm
         std::string header{};
         std::string data_value{};
 
-        convert << "P2 \n";
+        convert << "P3 \n";
         convert << width;
         convert << " ";
         convert << heigth;
@@ -37,16 +37,17 @@ struct pgm
             {
                 convert.str("");
                 convert.clear();
-
-                convert << static_cast<int>(row);
-                data_value += convert.str() + " ";
+                convert << static_cast<int>(row.r);
+                convert << " ";
+                convert << static_cast<int>(row.g);
+                convert << " ";
+                convert << static_cast<int>(row.b);
+                convert << " ";
+                data_value += convert.str();
             }
             data_value += " \n";
         }
         pgmFile << header + data_value;
     }
 };
-
-
-
 #endif

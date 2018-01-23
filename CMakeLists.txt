@@ -17,6 +17,9 @@ configure_file("${ROOT}/include/mapgen_config.h.in"
 add_library(mapgen
 	"${ROOT}/include/mapgen_config.h"
 	"${ROOT}/include/mapgen.h"
+	"${ROOT}/include/pgm.h"
+	"${ROOT}/include/ppm.h"
+	"${ROOT}/include/rgb.h"
 	"${ROOT}/src/mapgen_api.cpp"
 )
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
