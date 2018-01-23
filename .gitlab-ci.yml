@@ -7,8 +7,6 @@ build:linux:
     - rm -rf build-debug
     - mkdir build-debug
     - cd build-debug
-    - whoami
-    - echo $PATH
   script:
     - cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake --build .
