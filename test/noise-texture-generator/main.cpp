@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 
 #ifndef _WIN32
 #include <stdlib.h>
@@ -14,6 +15,7 @@
 static const char* VERSION = "1.0.0";
 
 struct Arguments {
+	bool read_seed_from_stdin = false;
 	uint32_t seed = 0;
 	std::size_t width = 1024;
 	std::size_t height = 1024;
@@ -43,7 +45,8 @@ void show_help(const char* exec) {
 	std::cout << "  -H <height>     Set the texture's height in pixels [1024]" << std::endl;
 	std::cout << "  -o <octaves>    Set the perlin noise's octaves     [8]" << std::endl;
 	std::cout << "  -m <multiplier> Set the noise's multiplier         [1.0]" << std::endl;
-	std::cout << "  -s <seed>       Use the specified seed to generate the noise" << std::endl; 
+	std::cout << "  -s <seed>|-     Use the specified seed to generate the noise" << std::endl; 
+	std::cout << "                  if - is used, the seed will be read from stdin" << std::endl;
 	std::cout << "  -v              Display the version" << std::endl;
 	std::cout << "  -h              Display this help" << std::endl;
 }
@@ -80,7 +83,12 @@ Arguments parse_arguments(int argc, char* const argv[]) {
 				args.multiplier = std::atof(optarg);
 				break;
 			case 's': // seed
-				args.seed = std::atoi(optarg);
+				if(std::strcmp(optarg, "-") == 0) {
+					args.read_seed_from_stdin = true;
+				}
+				else {
+					args.seed = std::atoi(optarg);
+				}
 				break;
 			default:
 				show_help(argv[0]);
@@ -99,7 +107,12 @@ int main(int argc, char* argv[]) {
 	// Generate noise
 	Perlin_noise noise;
 
-	if(args.seed != 0) {
+	if(args.read_seed_from_stdin) {
+		uint32_t seed;
+		std::cin >> seed;
+		noise.seed(seed);
+	}
+	else if(args.seed != 0) {
 		noise.seed(args.seed);
 	}
 
@@ -116,7 +129,7 @@ int main(int argc, char* argv[]) {
 								0.0, 
 								args.octaves, 
 								args.multiplier);
-			pixels[x][y] = clamp(noise_value, 0.0, 1.0) * 256.0;
+			pixels[x][y] = static_cast<uint8_t>(clamp((noise_value + 0.707) / 1.414, 0.0, 1.0) * 255.0);
 		}
 	}
 
