@@ -1,5 +1,6 @@
 stages:
   - build
+  - doc
 
 build:linux:gcc:
   stage: build
@@ -49,3 +50,18 @@ build:windows:
   tags:
     - windows
   allow_failure: false
+
+doc:generate api:
+  stage: doc
+  before_script:
+    - cmake -E remove_directory build-doc
+    - cmake -E make_directory build-doc
+  script:
+    - cmake -E chdir build-doc cmake -DBUILD_DOC=ON ..
+    - cmake -E chdir build-doc cmake --build . --target doc
+  artifacts:
+    paths:
+      - build-doc/generated_doc
+    expire_in: 1 week
+  tags:
+    - documentation
