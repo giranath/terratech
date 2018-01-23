@@ -7,16 +7,14 @@ build_windows:
     - if exist build-debug del build-debug
     - mkdir build-debug
     - cd build-debug
-    - echo %USERNAME%
-    - echo %PATH%
   script:
     - cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake --build .
   artifacts:
     paths:
-      - Debug\mapgen.dll
-      - Debug\mapgen.pbd
-      - Debug\mapgen.ilk
+      - build-debug\Debug\mapgen.dll
+      - build-debug\Debug\mapgen.pbd
+      - build-debug\Debug\mapgen.ilk
     expire_in: 1 week
   tags:
     - windows
