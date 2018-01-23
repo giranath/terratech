@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DEF_PERLIN_H
+#define DEF_PERLIN_H
+
 #include <cstdint>
 #include <vector>
 
@@ -23,3 +25,4 @@ private:
     std::vector<int32_t> permutation;
 };
 
+#endif
