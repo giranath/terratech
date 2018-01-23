@@ -1,6 +1,22 @@
 stages:
   - build
 
+build:linux:
+  stage: build
+  before_script:
+    - rm -rf build-debug
+    - mkdir build-debug
+    - cd build-debug
+  script:
+    - cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake --build .
+  artifacts:
+    paths:
+      - build-debug/libmapgen.so*
+    expire_in: 1 week
+  tags:
+    - linux
+  allow_failure: false
 build:windows:
   stage: build
   before_script:
