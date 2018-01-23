@@ -2,22 +2,30 @@ stages:
   - build
   - doc
 
-build:osx:
+#===========================================================================
+# TEMPLATES
+#===========================================================================
+.build_template: &build_definition
   stage: build
   before_script:
     - cmake -E remove_directory build-debug
     - cmake -E make_directory build-debug
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
+  allow_failure: false
+
+#===========================================================================
+# BUILD 
+#===========================================================================
+build:osx:
+  <<: *build_definition
   artifacts:
     paths:
       - build-debug/libmapgen.*dylib*
     expire_in: 1 week
   tags:
     - osx
-  allow_failure: false
- 
 build:linux:gcc:
   stage: build
   before_script:
@@ -48,15 +56,8 @@ build:linux:clang:
   tags:
     - linux
   allow_failure: false
-
 build:windows:
-  stage: build
-  before_script:
-    - cmake -E remove_directory build-debug
-    - cmake -E make_directory build-debug
-  script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
-    - cmake -E chdir build-debug cmake --build .
+  <<: *build_definition
   artifacts:
     paths:
       - build-debug\Debug\mapgen.dll
@@ -65,8 +66,10 @@ build:windows:
     expire_in: 1 week
   tags:
     - windows
-  allow_failure: false
 
+#===========================================================================
+# DOCUMENTATION
+#===========================================================================
 doc:generate api:
   stage: doc
   before_script:
