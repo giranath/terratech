@@ -1,0 +1,21 @@
+stages:
+  - build
+
+build_windows
+  stage: build
+  before_script:
+    - if exist build-debug del build-debug
+    - mkdir build-debug
+    - cd build-debug
+  script:
+    - cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake --build .
+  artifacts:
+    paths:
+      - Debug\mapgen.dll
+      - Debug\mapgen.pbd
+      - Debug\mapgen.ilk
+    expire_in: 1 week
+  tags:
+    - windows
+  allow_failure: false
