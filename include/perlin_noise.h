@@ -13,7 +13,7 @@ public:
 
     //Output range is between [-0.707, 0,707]
     double noise(double x, double y, double z) const;
-    double octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves) const;
+    double octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const;
 
 private:
     static double lerp(const double& t, const double& a, const double& b);

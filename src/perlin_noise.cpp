@@ -47,44 +47,38 @@ void Perlin_noise::seed(const uint32_t& seed)
 //Output range is between [-0.707, 0,707]
 double Perlin_noise::noise(double x, double y, double z) const
 {
-	int X = (int) floor(x) & 255;
-	int Y = (int) floor(y) & 255;
-	int Z = (int) floor(z) & 255;
+    int X = (int) floor(x) & 255;
+    int Y = (int) floor(y) & 255;
+    int Z = (int) floor(z) & 255;
 
-	x -= floor(x);
-	y -= floor(y);
-	z -= floor(z);
+    x -= floor(x);
+    y -= floor(y);
+    z -= floor(z);
 
-	double u = fade(x);
-	double v = fade(y);
-	double w = fade(z);
+    double u = fade(x);
+    double v = fade(y);
+    double w = fade(z);
 
-	int A = permutation[X] + Y;
-	int AA = permutation[A] + Z;
-	int AB = permutation[A + 1] + Z;
-	int B = permutation[X + 1] + Y;
-	int BA = permutation[B] + Z;
-	int BB = permutation[B + 1] + Z;
-
-	double res = lerp(w, lerp(v, lerp(u, grad(permutation[AA], x, y, z), grad(permutation[BA], x-1, y, z)), lerp(u, grad(permutation[AB], x, y-1, z), grad(permutation[BB], x-1, y-1, z))),	lerp(v, lerp(u, grad(permutation[AA+1], x, y, z-1), grad(permutation[BA+1], x-1, y, z-1)), lerp(u, grad(permutation[AB+1], x, y-1, z-1),	grad(permutation[BB+1], x-1, y-1, z-1))));
-	return res;
+    int A = permutation[X] + Y;
+    int AA = permutation[A] + Z;
+    int AB = permutation[A + 1] + Z;
+    int B = permutation[X + 1] + Y;
+    int BA = permutation[B] + Z;
+    int BB = permutation[B + 1] + Z;
+    return lerp(w, lerp(v, lerp(u, grad(permutation[AA], x, y, z), grad(permutation[BA], x-1, y, z)), lerp(u, grad(permutation[AB], x, y-1, z), grad(permutation[BB], x-1, y-1, z))),	lerp(v, lerp(u, grad(permutation[AA+1], x, y, z-1), grad(permutation[BA+1], x-1, y, z-1)), lerp(u, grad(permutation[AB+1], x, y-1, z-1),	grad(permutation[BB+1], x-1, y-1, z-1))));
 }
 
-double Perlin_noise::octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves) const
+double Perlin_noise::octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const
 {
-    double result = 0.0;
-    double amp = 1.0;
-    double X = x;
-    double Y = y;
-    double Z = z;
+    double total = 0;
+    double frequency = 1;
+    double amplitude = 1;
+    for (int i = 0; i<octaves; i++) {
+        total += noise(x * frequency, y * frequency, z * frequency) * amplitude;
 
-    for(std::uint32_t i = 0; i < octaves; ++i)
-    {
-        result += noise(x, y, z) * amp;
-        X *= 2.0;
-        Y *= 2.0;
-        Z *= 2.0;
-        amp *= 0.5;
+        amplitude *= multiplier;
+        frequency *= 2;
     }
-    return result;
+
+    return total;
 }
