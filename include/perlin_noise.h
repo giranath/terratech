@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 //See http://mrl.nyu.edu/~perlin/noise/
