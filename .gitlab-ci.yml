@@ -7,6 +7,7 @@ build_windows:
     - if exist build-debug del build-debug
     - mkdir build-debug
     - cd build-debug
+    - echo %PATH%
   script:
     - cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake --build .
