@@ -14,40 +14,26 @@ struct ppm
     size_t heigth;
     std::vector < std::vector<rgb>> data;
 
-    void write(std::string path)
+    std::ostream& write(std::ostream& out)
     {
-        std::ofstream pgmFile;
-        std::ostringstream convert;
+        out << "P3\n";
+        out << width;
+        out << " ";
+        out << heigth;
+        out << "\n255\n";
 
-        pgmFile.open(path);
+	for(std::size_t y = 0; y < height; ++y) {
+		for(std::size_t x = 0; x < width; ++x) {
+			out << data[x][y] << " ";
+		}
+		out << "\n";
+	}
 
-        std::string header{};
-        std::string data_value{};
-
-        convert << "P3 \n";
-        convert << width;
-        convert << " ";
-        convert << heigth;
-        convert << " \n 255 \n";
-        header = convert.str();
-
-        for (auto& col : data)
-        {
-            for (auto& row : col)
-            {
-                convert.str("");
-                convert.clear();
-                convert << static_cast<int>(row.r);
-                convert << " ";
-                convert << static_cast<int>(row.g);
-                convert << " ";
-                convert << static_cast<int>(row.b);
-                convert << " ";
-                data_value += convert.str();
-            }
-            data_value += " \n";
-        }
-        pgmFile << header + data_value;
+	return out;
     }
 };
+
+std::ostream& operator<<(std::ostream& out, const ppm& image) {
+	return image.write(out);
+}
 #endif

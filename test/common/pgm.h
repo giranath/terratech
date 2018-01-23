@@ -37,8 +37,8 @@ struct pgm
     }
 };
 
-std::ostream& operator<<(std::ostream& out, const pgm& pgm) {
-	return pgm.write(out);
+std::ostream& operator<<(std::ostream& out, const pgm& image) {
+	return image.write(out);
 }
 
 
