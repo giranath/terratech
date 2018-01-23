@@ -1,13 +1,13 @@
 stages:
   - build
 
-build:linux:
+build:linux:gcc:
   stage: build
   before_script:
     - cmake -E remove_directory build-debug
     - cmake -E make_directory build-debug
   script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
@@ -16,6 +16,22 @@ build:linux:
   tags:
     - linux
   allow_failure: false
+build:linux:clang:
+  stage: build
+  before_script:
+    - cmake -E remove_directory build-debug
+    - cmake -E make_directory build-debug
+  script:
+    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake -E chdir build-debug cmake --build .
+  artifacts:
+    paths:
+      - build-debug/libmapgen.so*
+    expire_in: 1 week
+  tags:
+    - linux
+  allow_failure: false
+
 build:windows:
   stage: build
   before_script:
