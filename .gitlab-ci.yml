@@ -58,6 +58,6 @@ doc:generate api:
     - cmake -E make_directory build-doc
   script:
     - cmake -E chdir build-doc cmake -DBUILD_DOC=ON ..
-    - cmake -E chdir build-doc cmake --build --target=doc
+    - cmake -E chdir build-doc cmake --build . --target=doc
   tags:
     - documentation
