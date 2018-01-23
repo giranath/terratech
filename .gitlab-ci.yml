@@ -13,7 +13,7 @@ build_windows:
   artifacts:
     paths:
       - build-debug\Debug\mapgen.dll
-      - build-debug\Debug\mapgen.pbd
+      - build-debug\Debug\mapgen.pdb
       - build-debug\Debug\mapgen.ilk
     expire_in: 1 week
   tags:
