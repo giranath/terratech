@@ -2,6 +2,22 @@ stages:
   - build
   - doc
 
+build:osx:
+  stage: build
+  before_script:
+    - cmake -E remove_directory build-debug
+    - cmake -E make_directory build-debug
+  script:
+    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake -E chdir build-debug cmake --build .
+  artifacts:
+    paths:
+      - build-debug/libmapgen.*dylib*
+    expire_in: 1 week
+  tags:
+    - osx
+  allow_failure: false
+ 
 build:linux:gcc:
   stage: build
   before_script:
@@ -12,7 +28,7 @@ build:linux:gcc:
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
-      - build-debug/libmapgen.so*
+      - build-debug/libmapgen.*so*
     expire_in: 1 week
   tags:
     - linux
@@ -27,7 +43,7 @@ build:linux:clang:
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
-      - build-debug/libmapgen.so*
+      - build-debug/libmapgen.*so*
     expire_in: 1 week
   tags:
     - linux
