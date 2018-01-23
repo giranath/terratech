@@ -1,7 +1,7 @@
 stages:
   - build
 
-build_windows
+build_windows:
   stage: build
   before_script:
     - if exist build-debug del build-debug
