@@ -9,6 +9,7 @@ set(ROOT ${CMAKE_SOURCE_DIR})
 # OPTIONS
 #==========================================================================
 option(BUILD_DOC "Generate documentation")
+option(BUILD_TEST "Build tests")
 
 #==========================================================================
 # MAIN LIBRARY
@@ -18,14 +19,15 @@ configure_file("${ROOT}/include/mapgen_config.h.in"
 add_library(mapgen
 	"${ROOT}/include/mapgen_config.h"
 	"${ROOT}/include/mapgen.h"
-	"${ROOT}/include/pgm.h"
-	"${ROOT}/include/ppm.h"
-	"${ROOT}/include/rgb.h"
 	"${ROOT}/src/mapgen_api.cpp"
 	"${ROOT}/src/perlin_noise.cpp"
 	"${ROOT}/include/perlin_noise.h"
 )
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
+
+if (BUILD_TEST)
+	add_subdirectory(test)
+endif ()
 
 #==========================================================================
 # DOCUMENTATION 
