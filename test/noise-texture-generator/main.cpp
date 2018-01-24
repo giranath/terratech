@@ -1,4 +1,5 @@
 #include <pgm.h>
+#include <helper.hpp>
 #include <perlin_noise.h>
 #include <mapgen_config.h>
 #include <cstdint>
@@ -25,16 +26,7 @@ struct Arguments {
 	Arguments() = default;
 };
 
-double clamp(double x, double min, double max) {
-	if(x > max) {
-		x = max;
-	}
-	else if(x < min) {
-		x = min;
-	}
 
-	return x;
-}
 
 void show_help(const char* exec) {
 	std::cout << "usage: " << exec << "[OPTION]..." << std::endl;
@@ -129,7 +121,7 @@ int main(int argc, char* argv[]) {
 								0.0, 
 								args.octaves, 
 								args.multiplier);
-			pixels[x][y] = static_cast<uint8_t>(clamp((noise_value + 0.707) / 1.414, 0.0, 1.0) * 255.0);
+			pixels[x][y] = static_cast<uint8_t>(helper::clamp(helper::normalize(noise_value, -0.707, 0.707), 0.0, 1.0) * 255.0);
 		}
 	}
 
