@@ -11,7 +11,7 @@ stages:
     - cmake -E remove_directory build-debug
     - cmake -E make_directory build-debug
   script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   allow_failure: false
 
@@ -23,38 +23,48 @@ build:osx:
   artifacts:
     paths:
       - build-debug/libmapgen.*dylib*
+      - build-debug/test/biometexgen
+      - build-debug/test/noisetexgen
     expire_in: 1 week
   tags:
     - osx
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
       - build-debug/libmapgen.*so*
+      - build-debug/test/biometexgen
+      - build-debug/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
 build:linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
       - build-debug/libmapgen.*so*
+      - build-debug/test/biometexgen
+      - build-debug/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
 build:windows:
   <<: *build_definition
+  script:
+      - cmake -E chdir build-debug cmake -DBUILD_TEST=ON ..
+      - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
-      - build-debug\Debug\mapgen.dll
+      - build-debug\Debug\mapgen.lib
       - build-debug\Debug\mapgen.pdb
-      - build-debug\Debug\mapgen.ilk
+      - build-debug\test\Debug\biometexgen.exe
+      - build-debug\test\Debug\noisetexgen.exe
     expire_in: 1 week
   tags:
     - windows
