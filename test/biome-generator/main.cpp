@@ -73,8 +73,8 @@ int main() {
 
 			for(int i = 0; i < 3; ++i) {
 				noise_values[i] = noises[i].octave_noise(static_cast<double>(x) / texture_width,
-			                                                 static_cast<double>(y) / texture_height, 
-					                                 0.0, 8, 0.5);
+				                                         static_cast<double>(y) / texture_height, 
+				                                         0.0, 8, 0.5);
 			}
 
 			std::transform(std::begin(noise_values), std::end(noise_values), std::begin(noise_values), [](double value) {
