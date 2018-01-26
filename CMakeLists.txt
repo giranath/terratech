@@ -22,6 +22,8 @@ add_library(mapgen
 	"${ROOT}/src/mapgen_api.cpp"
 	"${ROOT}/src/perlin_noise.cpp"
 	"${ROOT}/include/perlin_noise.h"
+	"${ROOT}/include/biome_table.hpp"
+	"${ROOT}/src/biome_table.cpp"
 )
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 

@@ -1,4 +1,5 @@
 #include <pgm.h>
+#include <helper.hpp>
 #include <perlin_noise.h>
 #include <mapgen_config.h>
 #include <cstdint>
@@ -25,16 +26,7 @@ struct Arguments {
 	Arguments() = default;
 };
 
-double clamp(double x, double min, double max) {
-	if(x > max) {
-		x = max;
-	}
-	else if(x < min) {
-		x = min;
-	}
 
-	return x;
-}
 
 void show_help(const char* exec) {
 	std::cout << "usage: " << exec << "[OPTION]..." << std::endl;
@@ -112,7 +104,7 @@ int main(int argc, char* argv[]) {
 		std::cin >> seed;
 		noise.seed(seed);
 	}
-	else if(args.seed != 0) {
+	else {
 		noise.seed(args.seed);
 	}
 
@@ -124,12 +116,12 @@ int main(int argc, char* argv[]) {
 
 	for(std::size_t x = 0; x < args.width; ++x) {
 		for(std::size_t y = 0; y < args.height; ++y) {
-			double noise_value = noise.octave_noise(static_cast<double>(x) / args.width, 
-			                                        static_cast<double>(y) / args.height, 
-								0.0, 
-								args.octaves, 
-								args.multiplier);
-			pixels[x][y] = static_cast<uint8_t>(clamp((noise_value + 0.707) / 1.414, 0.0, 1.0) * 255.0);
+			double noise_value = noise.octave_noise(static_cast<double>(x) / args.width,
+			                                        static_cast<double>(y) / args.height,
+			                                        0.0,
+			                                        args.octaves,
+			                                        args.multiplier);
+			pixels[x][y] = static_cast<uint8_t>(helper::clamp(helper::normalize(noise_value, -0.707, 0.707), 0.0, 1.0) * 255.0);
 		}
 	}
 
