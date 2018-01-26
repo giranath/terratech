@@ -29,7 +29,7 @@ build:osx:
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON..
+    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
