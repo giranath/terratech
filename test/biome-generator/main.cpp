@@ -4,6 +4,7 @@
 #include <helper.hpp>
 #include <ppm.h>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -162,7 +163,8 @@ int main(int argc, char* argv[]) {
 
 	// Dump image
 	ppm image(pixels);
-	std::cout << image << std::endl;
+   std::ofstream file("test.ppm");
+   image.write(file);
 }
 
 std::vector<Perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
@@ -190,7 +192,7 @@ mapgen::biome_table create_biomes_table() {
 	//     +----------------------- TEMPERATURE --------------------------->
 	// 0.0                                                             1.0
 	//
-	mapgen::biome_table biome_rep(4, 6);
+	mapgen::biome_table biome_rep(6,4);
 	biome_rep.set_biome_at(0, 0, BIOME_TUNDRA);
 	biome_rep.set_biome_at(1, 0, BIOME_TUNDRA);
 	biome_rep.set_biome_at(2, 0, BIOME_GRASS_DESERT);

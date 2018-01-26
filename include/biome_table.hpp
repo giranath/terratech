@@ -27,7 +27,7 @@ public:
 	biome_type biome_with(PERCENT col, PERCENT row) const noexcept {
 		static_assert(std::is_floating_point<PERCENT>::value, "floating type is required");
 
-		return biome_at(col_count() * col, row_count() * row);
+		return biome_at((col_count() - 1) * col, (row_count() - 1) * row);
 	}
 
 };
