@@ -50,6 +50,9 @@ build:linux:clang:
     - linux
 build:windows:
   <<: *build_definition
+  script:
+      - cmake -E chdir build-debug cmake -DBUILD_TEST=ON ..
+      - cmake -E chdir build-debug cmake --build
   artifacts:
     paths:
       - build-debug\Debug\mapgen.dll
