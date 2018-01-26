@@ -63,8 +63,8 @@ build:windows:
     paths:
       - build-debug\Debug\mapgen.lib
       - build-debug\Debug\mapgen.pdb
-      - build-debug\test\Debug\biometexgen
-      - build-debug\test\Debug\noisetexgen
+      - build-debug\test\Debug\biometexgen.exe
+      - build-debug\test\Debug\noisetexgen.exe
     expire_in: 1 week
   tags:
     - windows
