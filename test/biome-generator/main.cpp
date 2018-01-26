@@ -18,12 +18,15 @@
 
 static const char* VERSION = "1.0.0";
 
+// Names the different noises uses to generate biomes
+// In this world, a biome is defined by the humidity and the temperature of a region
 enum {
 	HUMIDITY_NOISE,
 	TEMPERATURE_NOISE,
 	NOISES_COUNT
 };
 
+// Enumerates every supported biomes
 enum {
 	BIOME_RAIN_FOREST,
 	BIOME_SWAMP,
@@ -135,6 +138,7 @@ int main(int argc, char* argv[]) {
 				                                         0.0, 8, 0.5);
 			}
 
+			// TODO: The noise should normalize the value
 			std::transform(std::begin(noise_values), std::end(noise_values), std::begin(noise_values), [](double value) {
 				return helper::clamp(helper::normalize(value, -0.707, 0.707), 0.0, 1.0);
 			});
@@ -142,6 +146,7 @@ int main(int argc, char* argv[]) {
 			const double CURRENT_HUMIDITY = noise_values[HUMIDITY_NOISE];
 			const double CURRENT_TEMPERATURE = noise_values[TEMPERATURE_NOISE];
 
+			// Here we use the biome repartition table to choose a biome for a specific point of the map
 			biomes[x].push_back(biome_rep.biome_with(CURRENT_HUMIDITY, CURRENT_TEMPERATURE));
 		}
 	}
@@ -170,6 +175,21 @@ std::vector<Perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
 }
 
 mapgen::biome_table create_biomes_table() {
+	// Here we create a biome repartition table
+	// 1.0 ^
+	//     |  +---------+---------+---------+---------+---------+---------+
+	//     H  |              FOREST         |  SWAMP  |    RAIN FOREST    |
+	//     U  +---------+---------+         +---------+---------+---------+
+	//     M  |                   |                   |  SEASONAL FOREST  |
+	//     I  +---------+         +---------+---------+---------+---------+
+	//     D  |         |  TAIGA  |       WOODS       |      SAVANNA      |
+	//     I  +         +---------+---------+---------+---------+---------+
+	//     T  |       TUNDRA      |    GRASS DESERT   |       DESERT      |
+	//     Y  +---------+---------+---------+---------+---------+---------+
+	//     |
+	//     +----------------------- TEMPERATURE --------------------------->
+	// 0.0                                                             1.0
+	//
 	mapgen::biome_table biome_rep(4, 6);
 	biome_rep.set_biome_at(0, 0, BIOME_TUNDRA);
 	biome_rep.set_biome_at(1, 0, BIOME_TUNDRA);
@@ -177,18 +197,21 @@ mapgen::biome_table create_biomes_table() {
 	biome_rep.set_biome_at(3, 0, BIOME_GRASS_DESERT);
 	biome_rep.set_biome_at(4, 0, BIOME_DESERT);
 	biome_rep.set_biome_at(5, 0, BIOME_DESERT);
+
 	biome_rep.set_biome_at(0, 1, BIOME_TUNDRA);
 	biome_rep.set_biome_at(1, 1, BIOME_TAIGA);
 	biome_rep.set_biome_at(2, 1, BIOME_WOODS);
 	biome_rep.set_biome_at(3, 1, BIOME_WOODS);
 	biome_rep.set_biome_at(4, 1, BIOME_SAVANNA);
 	biome_rep.set_biome_at(5, 1, BIOME_SAVANNA);
+
 	biome_rep.set_biome_at(0, 2, BIOME_TAIGA);
 	biome_rep.set_biome_at(1, 2, BIOME_TAIGA);
 	biome_rep.set_biome_at(2, 2, BIOME_FOREST);
 	biome_rep.set_biome_at(3, 2, BIOME_FOREST);
 	biome_rep.set_biome_at(4, 2, BIOME_SEASONAL_FOREST);
 	biome_rep.set_biome_at(5, 2, BIOME_SEASONAL_FOREST);
+
 	biome_rep.set_biome_at(0, 3, BIOME_FOREST);
 	biome_rep.set_biome_at(1, 3, BIOME_FOREST);
 	biome_rep.set_biome_at(2, 3, BIOME_FOREST);
@@ -200,6 +223,8 @@ mapgen::biome_table create_biomes_table() {
 }
 
 std::map<int, rgb> create_biome_color_mapping() {
+	// Here we asign a color to a biome
+	// see https://i.stack.imgur.com/vlvQQ.png for color code
 	std::map<int, rgb> biome_color;
 	biome_color[BIOME_RAIN_FOREST] =     rgb(0,   0,   255);
 	biome_color[BIOME_SWAMP] =           rgb(63,  64,  255);
