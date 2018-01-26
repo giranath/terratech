@@ -11,7 +11,7 @@ stages:
     - cmake -E remove_directory build-debug
     - cmake -E make_directory build-debug
   script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   allow_failure: false
 
@@ -29,7 +29,7 @@ build:osx:
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
@@ -40,7 +40,7 @@ build:linux:gcc:
 build:linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON ..
+    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
     - cmake -E chdir build-debug cmake --build .
   artifacts:
     paths:
