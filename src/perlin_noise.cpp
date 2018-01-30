@@ -2,10 +2,11 @@
 #include <vector>
 #include <random>
 #include <numeric>
+#include <iterator>
 
 #include "../include/perlin_noise.h"
 
-perlin_noise::perlin_noise(const uint32_t& seed_value)
+perlin_noise::perlin_noise(const seed_type& seed_value)
 {
     seed(seed_value);
 }
@@ -15,17 +16,17 @@ perlin_noise::perlin_noise()
     seed(std::default_random_engine::default_seed);
 }
 
-double perlin_noise::lerp(const double& t, const double& a, const double& b)
+double perlin_noise::lerp(const double& t, const double& a, const double& b) noexcept
 {
     return a + t * (b - a);
 }
 
-double perlin_noise::fade(const double& t)
+double perlin_noise::fade(const double& t) noexcept
 {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-double perlin_noise::grad(const std::int32_t& hash, const double& x, const double& y, const double& z)
+double perlin_noise::grad(const std::int32_t& hash, const double& x, const double& y, const double& z) noexcept
 {
     const std::int32_t h = hash & 15;
     const double u = h < 8 ? x : y;
@@ -33,7 +34,7 @@ double perlin_noise::grad(const std::int32_t& hash, const double& x, const doubl
     return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
 }
 
-void perlin_noise::seed(const uint32_t& seed)
+void perlin_noise::seed(const seed_type& seed)
 {
     permutation.reserve(512);
     permutation.resize(256);
@@ -45,7 +46,7 @@ void perlin_noise::seed(const uint32_t& seed)
 }
 
 //Output range is between [-0.707, 0,707]
-double perlin_noise::noise(double x, double y, double z) const
+double perlin_noise::noise(double x, double y, double z) const noexcept
 {
     int X = (int) floor(x) & 255;
     int Y = (int) floor(y) & 255;
@@ -82,7 +83,7 @@ double perlin_noise::noise(double x, double y, double z) const
                           grad(permutation[BB+1], x-1, y-1, z-1))));
 }
 
-double perlin_noise::octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const
+double perlin_noise::octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const noexcept
 {
     double total = 0;
     double frequency = 1;

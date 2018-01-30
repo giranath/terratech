@@ -8,19 +8,21 @@
 class perlin_noise
 {
 public:
-    perlin_noise();
-    perlin_noise(const uint32_t& seed);
+    using seed_type = uint32_t;
 
-    void seed(const uint32_t& seed);
+    perlin_noise();
+    explicit perlin_noise(const seed_type& seed);
+
+    void seed(const seed_type& seed);
 
     //Output range is between [-0.707, 0,707]
-    double noise(double x, double y, double z) const;
-    double octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const;
+    double noise(double x, double y, double z) const noexcept;
+    double octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const noexcept;
 
 private:
-    static double lerp(const double& t, const double& a, const double& b);
-    static double fade(const double& t);
-    static double grad(const std::int32_t& hash, const double& x, const double& y, const double& z);
+    static double lerp(const double& t, const double& a, const double& b) noexcept;
+    static double fade(const double& t) noexcept;
+    static double grad(const std::int32_t& hash, const double& x, const double& y, const double& z) noexcept;
 
     std::vector<int32_t> permutation;
 };
