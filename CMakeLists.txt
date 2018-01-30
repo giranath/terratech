@@ -39,13 +39,13 @@ if (BUILD_DOC)
 	find_package(Doxygen)
 	if (DOXYGEN_FOUND)
 		configure_file("${ROOT}/doc/Doxyfile.in"
-			       "${ROOT}/doc/Doxyfile")
+		               "${ROOT}/doc/Doxyfile")
 		
 		add_custom_target(doc
-			COMMAND ${DOXYGEN_EXECUTABLE} "${ROOT}/doc/Doxyfile"
-			WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-			COMMENT "Generating API documentation with Doxygen"
-			VERBATIM)
+		                  COMMAND ${DOXYGEN_EXECUTABLE} "${ROOT}/doc/Doxyfile"
+		                  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+		                  COMMENT "Generating API documentation with Doxygen"
+		                  VERBATIM)
 
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)

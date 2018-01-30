@@ -5,11 +5,11 @@
 #include <vector>
 
 //See http://mrl.nyu.edu/~perlin/noise/
-class Perlin_noise
+class perlin_noise
 {
 public:
-    Perlin_noise();
-    Perlin_noise(const uint32_t& seed);
+    perlin_noise();
+    perlin_noise(const uint32_t& seed);
 
     void seed(const uint32_t& seed);
 
