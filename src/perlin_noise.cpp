@@ -36,13 +36,13 @@ double perlin_noise::grad(const std::int32_t& hash, const double& x, const doubl
 
 void perlin_noise::seed(const seed_type& seed) noexcept
 {
-    std::iota(std::begin(permutation), std::begin(permutation) + 256, 0);
+    std::iota(std::begin(permutation), std::begin(permutation) + HALF_PERMUTATION_SIZE, 0);
 
     std::default_random_engine engine(seed);
-    std::shuffle(std::begin(permutation), std::begin(permutation) + 256, engine);
+    std::shuffle(std::begin(permutation), std::begin(permutation) + HALF_PERMUTATION_SIZE, engine);
 
     // Duplicate first half
-    std::copy(permutation.begin(), std::begin(permutation) + 256, std::begin(permutation) + 256);
+    std::copy(permutation.begin(), std::begin(permutation) + HALF_PERMUTATION_SIZE, std::begin(permutation) + HALF_PERMUTATION_SIZE);
 }
 
 //Output range is between [-0.707, 0,707]

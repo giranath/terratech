@@ -20,11 +20,14 @@ public:
     double octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const noexcept;
 
 private:
+    static const std::size_t PERMUTATION_SIZE = 512;
+    static const std::size_t HALF_PERMUTATION_SIZE = PERMUTATION_SIZE / 2;
+
     static double lerp(const double& t, const double& a, const double& b) noexcept;
     static double fade(const double& t) noexcept;
     static double grad(const std::int32_t& hash, const double& x, const double& y, const double& z) noexcept;
 
-    std::array<int32_t, 512> permutation;
+    std::array<int32_t, PERMUTATION_SIZE> permutation;
 };
 
 #endif
