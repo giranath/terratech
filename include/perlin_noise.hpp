@@ -1,5 +1,5 @@
-#ifndef DEF_PERLIN_H
-#define DEF_PERLIN_H
+#ifndef DEF_MAPGEN_PERLIN_HPP
+#define DEF_MAPGEN_PERLIN_HPP
 
 #include <cstdint>
 #include <array>

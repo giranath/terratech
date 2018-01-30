@@ -17,14 +17,18 @@ option(BUILD_TEST "Build tests")
 configure_file("${ROOT}/include/mapgen_config.h.in" 
                "${ROOT}/include/mapgen_config.h")
 add_library(mapgen
-	"${ROOT}/include/mapgen_config.h"
-	"${ROOT}/include/mapgen.h"
-	"${ROOT}/src/mapgen_api.cpp"
-	"${ROOT}/src/perlin_noise.cpp"
-	"${ROOT}/include/perlin_noise.hpp"
-	"${ROOT}/include/biome_table.hpp"
-	"${ROOT}/src/biome_table.cpp"
-)
+	include/mapgen_config.h
+	include/mapgen.h
+	src/mapgen_api.cpp
+	include/map.hpp
+	src/map.cpp
+	include/region.hpp
+	src/region.cpp
+	src/region.cpp
+	include/perlin_noise.hpp
+	src/perlin_noise.cpp
+	include/biome_table.hpp
+	src/biome_table.cpp)
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
 if (BUILD_TEST)
