@@ -6,12 +6,12 @@
 
 #include "../include/perlin_noise.h"
 
-perlin_noise::perlin_noise(const seed_type& seed_value)
+perlin_noise::perlin_noise(const seed_type& seed_value) noexcept
 {
     seed(seed_value);
 }
 
-perlin_noise::perlin_noise()
+perlin_noise::perlin_noise() noexcept
 {
     seed(std::default_random_engine::default_seed);
 }
@@ -34,15 +34,15 @@ double perlin_noise::grad(const std::int32_t& hash, const double& x, const doubl
     return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
 }
 
-void perlin_noise::seed(const seed_type& seed)
+void perlin_noise::seed(const seed_type& seed) noexcept
 {
-    permutation.reserve(512);
-    permutation.resize(256);
+    std::iota(std::begin(permutation), std::begin(permutation) + 256, 0);
 
-    std::iota(permutation.begin(), permutation.begin() + 256, 0);
     std::default_random_engine engine(seed);
-    std::shuffle(permutation.begin(), permutation.begin() + 256, engine);
-    permutation.insert(permutation.end(), permutation.begin(), permutation.end());
+    std::shuffle(std::begin(permutation), std::begin(permutation) + 256, engine);
+
+    // Duplicate first half
+    std::copy(permutation.begin(), std::begin(permutation) + 256, std::begin(permutation) + 256);
 }
 
 //Output range is between [-0.707, 0,707]

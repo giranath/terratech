@@ -173,7 +173,7 @@ int main(int argc, char *argv[]) {
 std::vector<perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
     std::vector<perlin_noise> noises;
     for (std::size_t i = 0; i < count; ++i) {
-        noises.emplace_back(seed + i);
+        noises.emplace_back(seed + i * 100);
     }
 
     return noises;
