@@ -1,4 +1,4 @@
-#include <perlin_noise.h>
+#include <perlin_noise.hpp>
 #include <biome_table.hpp>
 #include <mapgen_config.h>
 #include <helper.hpp>
@@ -44,7 +44,7 @@ enum {
     BIOME_COUNT
 };
 
-std::vector<perlin_noise> prepare_noises(std::size_t count, uint32_t seed);
+std::vector<mapgen::perlin_noise> prepare_noises(std::size_t count, uint32_t seed);
 
 mapgen::biome_table create_biomes_table();
 
@@ -170,8 +170,8 @@ int main(int argc, char *argv[]) {
     std::cout << image << std::endl;
 }
 
-std::vector<perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
-    std::vector<perlin_noise> noises;
+std::vector<mapgen::perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
+    std::vector<mapgen::perlin_noise> noises;
     for (std::size_t i = 0; i < count; ++i) {
         noises.emplace_back(seed + i * 100);
     }

@@ -1,6 +1,6 @@
 #include <pgm.h>
 #include <helper.hpp>
-#include <perlin_noise.h>
+#include <perlin_noise.hpp>
 #include <mapgen_config.h>
 #include <cstdint>
 #include <vector>
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     Arguments args = parse_arguments(argc, argv);
 
     // Generate noise
-    perlin_noise noise;
+    mapgen::perlin_noise noise;
 
     if (args.read_seed_from_stdin) {
         uint32_t seed;
