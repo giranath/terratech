@@ -21,7 +21,7 @@ add_library(mapgen
 	"${ROOT}/include/mapgen.h"
 	"${ROOT}/src/mapgen_api.cpp"
 	"${ROOT}/src/perlin_noise.cpp"
-	"${ROOT}/include/perlin_noise.h"
+	"${ROOT}/include/perlin_noise.hpp"
 	"${ROOT}/include/biome_table.hpp"
 	"${ROOT}/src/biome_table.cpp"
 )
