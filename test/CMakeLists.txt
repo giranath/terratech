@@ -13,3 +13,8 @@ add_executable(watertexgen
 	water-generator/main.cpp)
 target_include_directories(watertexgen PUBLIC "common" "${CMAKE_SOURCE_DIR}/include")
 target_link_libraries(watertexgen mapgen)
+
+add_executable(cppapitest
+	api/main.cpp)
+target_include_directories(cppapitest PUBLIC "common" "${CMAKE_SOURCE_DIR}/include")
+target_link_libraries(cppapitest mapgen)

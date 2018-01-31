@@ -27,7 +27,7 @@ add_library(mapgen
 	"${ROOT}/include/perlin_noise.h"
 	"${ROOT}/include/biome_table.hpp"
 	"${ROOT}/src/biome_table.cpp"
-)
+		include/mapgen_errors.h)
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
 if (BUILD_TEST)
