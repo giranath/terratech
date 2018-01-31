@@ -2,6 +2,7 @@
 #include "perlin_noise.h"
 #include "ppm.h"
 #include "clump.h"
+#include "weighted_chance_structure.h"
 
 #include <helper.hpp>
 #include <vector>
@@ -58,6 +59,7 @@ int main()
                 image_vector[i][j] = rgb(64, 164, 223);
         }
     }
+<<<<<<< Updated upstream
     clump c (4, 10, 123);
 
     std::default_random_engine engine{seed};
@@ -80,6 +82,9 @@ int main()
             }
         }
     }
+=======
+
+>>>>>>> Stashed changes
     std::ofstream file("water.ppm");
     ppm image(image_vector);
     image.write(file);
