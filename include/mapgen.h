@@ -101,6 +101,7 @@ void mapgen_map_destroy(struct mapgen_map* map);
 
 mapgen_layer_handle mapgen_map_add_noise_layer(struct mapgen_map* map, mapgen_noise_type noise_type);
 struct mapgen_biome_table* mapgen_map_enable_biomes(struct mapgen_map* map, int x_step, int y_step, mapgen_layer_handle axis_x, mapgen_layer_handle axis_y);
+struct mapgen_biome_table* mapgen_map_enable_altitude(struct mapgen_map* map, int step, mapgen_layer_handle altitude_layer);
 
 /**================================================================
  * Map layer

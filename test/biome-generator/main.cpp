@@ -31,6 +31,8 @@ enum {
     BIOME_DESERT,
     BIOME_GRASS_DESERT,
     BIOME_TUNDRA,
+    BIOME_WATER,
+    BIOME_DEEP_WATER,
     BIOME_COUNT
 };
 
@@ -138,9 +140,9 @@ mapgen_map* create_map(int seed) {
         return nullptr;
     }
 
-    mapgen_layer_handle elevation = mapgen_map_add_noise_layer(map, MAPGEN_NOISE_PERLIN);
-    if(elevation != MAPGEN_LAYER_INVALID) {
-        mapgen_layer_set_property(elevation, MAPGEN_NOISE_SEED, seed);
+    mapgen_layer_handle temperature = mapgen_map_add_noise_layer(map, MAPGEN_NOISE_PERLIN);
+    if(temperature != MAPGEN_LAYER_INVALID) {
+        mapgen_layer_set_property(temperature, MAPGEN_NOISE_SEED, seed);
     }
     else {
         std::cerr << "cannot create elevation layer: " << mapgen_last_error_msg(map) << std::endl;
@@ -156,7 +158,16 @@ mapgen_map* create_map(int seed) {
         return nullptr;
     }
 
-    mapgen_biome_table* biome_table = mapgen_map_enable_biomes(map, 6, 4, elevation, humidity);
+    mapgen_layer_handle altitude = mapgen_map_add_noise_layer(map, MAPGEN_NOISE_PERLIN);
+    if(altitude) {
+        mapgen_layer_set_property(altitude, MAPGEN_NOISE_SEED, seed + 2);
+    }
+    else {
+        std::cerr << "cannot create altitude layer: " << mapgen_last_error_msg(map) << std::endl;
+        return nullptr;
+    }
+
+    mapgen_biome_table* biome_table = mapgen_map_enable_biomes(map, 6, 4, temperature, humidity);
     if(!biome_table) {
         std::cerr << "cannot enable biomes generation: " << mapgen_last_error_msg(map) << std::endl;
         return nullptr;
@@ -164,6 +175,18 @@ mapgen_map* create_map(int seed) {
 
     // SETUP BIOME TABLE
     setup_biomes_table(biome_table);
+
+    mapgen_biome_table* altitude_table = mapgen_map_enable_altitude(map, 20, altitude);
+    if(altitude_table) {
+        mapgen_biome_table_set(altitude_table, 0,  0, BIOME_DEEP_WATER);
+        mapgen_biome_table_set(altitude_table, 1,  0, BIOME_DEEP_WATER);
+        mapgen_biome_table_set(altitude_table, 2,  0, BIOME_WATER);
+        mapgen_biome_table_set(altitude_table, 3,  0, BIOME_WATER);
+        mapgen_biome_table_set(altitude_table, 4,  0, BIOME_WATER);
+        mapgen_biome_table_set(altitude_table, 5,  0, BIOME_WATER);
+        mapgen_biome_table_set(altitude_table, 6,  0, BIOME_WATER);
+        mapgen_biome_table_set(altitude_table, 12, 0, BIOME_WATER);
+    }
 
     return map;
 }
@@ -217,16 +240,18 @@ std::map<int, rgb> create_biome_color_mapping() {
     // Here we asign a color to a biome
     // see https://i.stack.imgur.com/vlvQQ.png for color code
     std::map<int, rgb> biome_color;
-    biome_color[BIOME_RAIN_FOREST] = rgb(0, 0, 255);
-    biome_color[BIOME_SWAMP] = rgb(63, 64, 255);
-    biome_color[BIOME_SEASONAL_FOREST] = rgb(170, 0, 255);
-    biome_color[BIOME_FOREST] = rgb(191, 64, 255);
-    biome_color[BIOME_TAIGA] = rgb(255, 128, 255);
-    biome_color[BIOME_WOODS] = rgb(255, 64, 191);
-    biome_color[BIOME_SAVANNA] = rgb(255, 0, 170);
-    biome_color[BIOME_DESERT] = rgb(255, 0, 0);
-    biome_color[BIOME_GRASS_DESERT] = rgb(255, 97, 97);
-    biome_color[BIOME_TUNDRA] = rgb(255, 191, 212);
+    biome_color[BIOME_RAIN_FOREST] =     rgb(0,   0,   255);
+    biome_color[BIOME_SWAMP] =           rgb(63,  64,  255);
+    biome_color[BIOME_SEASONAL_FOREST] = rgb(170, 0,   255);
+    biome_color[BIOME_FOREST] =          rgb(191, 64,  255);
+    biome_color[BIOME_TAIGA] =           rgb(255, 128, 255);
+    biome_color[BIOME_WOODS] =           rgb(255, 64,  191);
+    biome_color[BIOME_SAVANNA] =         rgb(255, 0,   170);
+    biome_color[BIOME_DESERT] =          rgb(255, 0,   0);
+    biome_color[BIOME_GRASS_DESERT] =    rgb(255, 97,  97);
+    biome_color[BIOME_TUNDRA] =          rgb(255, 191, 212);
+    biome_color[BIOME_WATER] =           rgb(0,   255, 230);
+    biome_color[BIOME_DEEP_WATER] =      rgb(0,   0,   255);
 
     return biome_color;
 }

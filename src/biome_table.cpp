@@ -2,6 +2,23 @@
 
 namespace mapgen {
 
+biome_axis::biome_axis(index count, biome_type default_biome)
+: biomes(count, default_biome) {
+
+}
+
+void biome_axis::set_biome_at(index i, biome_type biome) noexcept {
+    biomes[i] = biome;
+}
+
+biome_axis::biome_type biome_axis::biome_at(index i) const noexcept {
+    return biomes[i];
+}
+
+biome_axis::index biome_axis::count() const noexcept {
+    return biomes.size();
+}
+
 biome_table::biome_table(column_type col_count, row_type row_count, biome_type default_biome)
 : biomes{} {
 	biomes.resize(row_count);
