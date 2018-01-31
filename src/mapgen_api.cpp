@@ -1,7 +1,7 @@
 #include "../include/mapgen.h"
 #include "../include/mapgen_errors.h"
 #include "../include/biome_table.hpp"
-#include "../include/perlin_noise.h"
+#include "../include/perlin_noise.hpp"
 
 #include <vector>
 #include <memory>
@@ -29,9 +29,9 @@ int mapgen_version_get_patch() {
 //==============================================================================
 struct mapgen_layer {
     mapgen_map* owner;
-    Perlin_noise* noise;
+    mapgen::perlin_noise* noise;
 
-    mapgen_layer(mapgen_map* owner, Perlin_noise* noise) noexcept
+    mapgen_layer(mapgen_map* owner, mapgen::perlin_noise* noise) noexcept
     : owner(owner)
     , noise(noise) {
 
@@ -63,7 +63,7 @@ struct mapgen_biome_table {
 };
 
 struct mapgen_map {
-    std::vector<Perlin_noise> noises;
+    std::vector<mapgen::perlin_noise> noises;
     std::vector<std::unique_ptr<mapgen_layer>> layers;
     int last_error;
     const char* last_error_msg;
