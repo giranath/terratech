@@ -120,8 +120,7 @@ int main(int argc, char *argv[]) {
                                                     0.0,
                                                     args.octaves,
                                                     args.multiplier);
-            pixels[x][y] = static_cast<uint8_t>(helper::clamp(helper::normalize(noise_value, -0.707, 0.707), 0.0, 1.0) *
-                                                255.0);
+            pixels[x][y] = static_cast<uint8_t>(noise_value * 255.0);
         }
     }
 

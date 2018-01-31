@@ -142,12 +142,6 @@ int main(int argc, char *argv[]) {
                                                          0.0, 8, 0.5);
             }
 
-            // TODO: The noise should normalize the value
-            std::transform(std::begin(noise_values), std::end(noise_values), std::begin(noise_values),
-                           [](double value) {
-                               return helper::clamp(helper::normalize(value, -0.707, 0.707), 0.0, 1.0);
-                           });
-
             const double CURRENT_HUMIDITY = noise_values[HUMIDITY_NOISE];
             const double CURRENT_TEMPERATURE = noise_values[TEMPERATURE_NOISE];
 
