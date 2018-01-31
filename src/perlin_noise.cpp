@@ -43,7 +43,7 @@ void perlin_noise::seed(const seed_type &seed) noexcept {
 }
 
 //Output range is between [-0.707, 0,707]
-double perlin_noise::noise(double x, double y, double z) const noexcept {
+double perlin_noise::raw_noise(double x, double y, double z) const noexcept {
     int X = (int) floor(x) & 255;
     int Y = (int) floor(y) & 255;
     int Z = (int) floor(z) & 255;
@@ -63,20 +63,28 @@ double perlin_noise::noise(double x, double y, double z) const noexcept {
     int BA = permutation[B] + Z;
     int BB = permutation[B + 1] + Z;
 
-    return lerp(w,
-                lerp(v,
-                     lerp(u,
-                          grad(permutation[AA], x, y, z),
-                          grad(permutation[BA], x - 1, y, z)),
-                     lerp(u,
-                          grad(permutation[AB], x, y - 1, z),
-                          grad(permutation[BB], x - 1, y - 1, z))),
-                lerp(v,
-                     lerp(u,
-                          grad(permutation[AA + 1], x, y, z - 1),
-                          grad(permutation[BA + 1], x - 1, y, z - 1)),
-                     lerp(u, grad(permutation[AB + 1], x, y - 1, z - 1),
-                          grad(permutation[BB + 1], x - 1, y - 1, z - 1))));
+    double noise_value = lerp(w,
+                              lerp(v,
+                                   lerp(u,
+                                        grad(permutation[AA], x, y, z),
+                                        grad(permutation[BA], x - 1, y, z)),
+                                   lerp(u,
+                                        grad(permutation[AB], x, y - 1, z),
+                                        grad(permutation[BB], x - 1, y - 1, z))),
+                              lerp(v,
+                                   lerp(u,
+                                        grad(permutation[AA + 1], x, y, z - 1),
+                                        grad(permutation[BA + 1], x - 1, y, z - 1)),
+                                   lerp(u,
+                                        grad(permutation[AB + 1], x, y - 1, z - 1),
+                                        grad(permutation[BB + 1], x - 1, y - 1, z - 1))));
+
+    //return (noise_value + 7.07) / 1.414;
+    return noise_value;
+}
+
+double perlin_noise::noise(double x, double y, double z) const noexcept {
+    return (raw_noise(x, y, z) + 0.707) / 1.414;
 }
 
 double perlin_noise::octave_noise(const double &x, const double &y, const double &z, const std::uint32_t &octaves,
@@ -85,13 +93,13 @@ double perlin_noise::octave_noise(const double &x, const double &y, const double
     double frequency = 1;
     double amplitude = 1;
     for (int i = 0; i < octaves; i++) {
-        total += noise(x * frequency, y * frequency, z * frequency) * amplitude;
+        total += raw_noise(x * frequency, y * frequency, z * frequency) * amplitude;
 
         amplitude *= multiplier;
         frequency *= 2;
     }
 
-    return total;
+    return (total + 0.707) / 1.414;
 }
 
 }
