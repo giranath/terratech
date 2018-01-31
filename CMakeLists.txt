@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 
 project(MapGeneration VERSION 0.1.0 DESCRIPTION "A map generator for games")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(ROOT ${CMAKE_SOURCE_DIR})
 
 #==========================================================================
@@ -27,7 +27,7 @@ add_library(mapgen
 	"${ROOT}/include/perlin_noise.h"
 	"${ROOT}/include/biome_table.hpp"
 	"${ROOT}/src/biome_table.cpp"
-		include/mapgen_errors.h)
+	include/mapgen_errors.h)
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
 if (BUILD_TEST)

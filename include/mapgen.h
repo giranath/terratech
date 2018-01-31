@@ -91,6 +91,8 @@ void mapgen_map_attach_userdata(struct mapgen_map* map, mapgen_userdata userdata
  */
 mapgen_userdata mapgen_map_userdata(struct mapgen_map* map);
 
+int mapgen_map_biome_at(struct mapgen_map* map, float x, float y);
+
 /**
  * Destroys a map
  * @param map The map to destroy
@@ -98,17 +100,23 @@ mapgen_userdata mapgen_map_userdata(struct mapgen_map* map);
 void mapgen_map_destroy(struct mapgen_map* map);
 
 mapgen_layer_handle mapgen_map_add_noise_layer(struct mapgen_map* map, mapgen_noise_type noise_type);
-struct mapgen_biome_table* mapgen_map_enable_biomes(struct mapgen_map* map, mapgen_layer_handle axis_x, mapgen_layer_handle axis_y);
-struct mapgen_biome_table* mapgen_map_biome_table(struct mapgen_map* map);
+struct mapgen_biome_table* mapgen_map_enable_biomes(struct mapgen_map* map, int x_step, int y_step, mapgen_layer_handle axis_x, mapgen_layer_handle axis_y);
 
 /**================================================================
  * Map layer
  * ================================================================
- * \page Error Handling
- * Describe how error handling is done
+ * \page Map layer
+ * Describe what are map layers
  */
 mapgen_error mapgen_layer_set_property(mapgen_layer_handle layer, mapgen_property_name property, int value);
 
+/**================================================================
+ * Biomes table
+ * ================================================================
+ * \page Biomes table
+ * Describe what are biome tables
+ */
+mapgen_error mapgen_biome_table_set(struct mapgen_biome_table* table, int x, int y, int biome);
 
 /**================================================================
  * Error handling
