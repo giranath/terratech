@@ -17,7 +17,7 @@
 
 #endif
 
-static const char *VERSION = "2.0.0";
+static const char *VERSION = "2.1.0";
 
 // Enumerates every supported biomes
 enum {
