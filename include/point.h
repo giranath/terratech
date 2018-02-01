@@ -2,18 +2,15 @@
 #define DEF_POINT_H
 #include <cmath>
 
+template <class T>
 struct point
 {
-    double x;
-    double y;
+    T x;
+    T y;
 
-    point() : x(0), y(0) {}
-    point(double x, double y) : x(x), y(y) {}
+    point() : x(T{}), y({}) {}
+    point(T x, T y) : x(x), y(y) {}
 
-    double distance(const point& p)
-    {
-        return sqrt(pow((x - p.x), 2) + pow((y - p.y), 2));
-    }
 };
 #endif // !DEF_POINT_H
 
