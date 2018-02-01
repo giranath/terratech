@@ -1,8 +1,6 @@
 #include "map.h"
 #include "perlin_noise.h"
 #include "ppm.h"
-#include "clump.h"
-#include "weighted_chance_structure.h"
 
 #include <helper.hpp>
 #include <vector>
