@@ -57,32 +57,7 @@ int main()
                 image_vector[i][j] = rgb(64, 164, 223);
         }
     }
-<<<<<<< Updated upstream
-    clump c (4, 10, 123);
-
-    std::default_random_engine engine{seed};
-    std::uniform_int_distribution<size_t> width_distribution{ 0, width };
-    std::uniform_int_distribution<size_t> height_distribution{ 0, height };
-    std::vector<point<int>> rando_point(50);
     
-    std::for_each(rando_point.begin(), rando_point.end(), [&width_distribution, &height_distribution, &engine](point<int>& p) {
-        p = point<int>{ static_cast<int>(width_distribution(engine)), static_cast<int>(height_distribution(engine)) };
-    });
-
-    for (auto& p : rando_point)
-    {
-        std::vector<point<int>> points = c();
-        for (auto& clump_p : points)
-        {
-            if (clump_p.x + p.x >= 0 && clump_p.x + p.x < width && clump_p.y + p.y >= 0 && clump_p.y + p.y < height)
-            {
-                image_vector[clump_p.x + p.x][clump_p.y + p.y] = rgb(255, 0, 0);
-            }
-        }
-    }
-=======
-
->>>>>>> Stashed changes
     std::ofstream file("water.ppm");
     ppm image(image_vector);
     image.write(file);
