@@ -22,6 +22,7 @@ add_library(mapgen
 	"${ROOT}/include/map.h"
 	"${ROOT}/include/region.h"
 	"${ROOT}/include/point.h"
+	"${ROOT}/include/weighted_distribution.h"
 	"${ROOT}/include/ressource_generator_by_points.h"
 	"${ROOT}/include/ressource_generator_by_elimination.h"
 	"${ROOT}/src/mapgen_api.cpp"
