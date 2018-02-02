@@ -22,7 +22,7 @@ public:
         point_distribution{0, 0, width, height}{}
 
     std::pair<point<dimension_type>, site_id_type> operator()(std::default_random_engine& engine) {
-        std::uniform_int_distribution<std::size_t> sites_id_distribution{ 0, sites_id.size() - 1 };
+        std::uniform_int_distribution<dimension_type> sites_id_distribution{ 0, sites_id.size() - 1 };
 
         return { point_distribution(engine), sites_id[sites_id_distribution(engine)] };
     }

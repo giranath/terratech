@@ -1,8 +1,7 @@
 #include "../include/map.h"
 
 map::map(column_type width, row_type heigth) : regions(width, std::vector<region>(height, region())), width(width), height(heigth)
-{
-}
+{}
 
 void map::add_site_by_noise(const double& threshold, const uint16_t& site_id, std::function<bool(double, double)> op, const std::vector<std::vector<double>>& noise)
 {
@@ -17,7 +16,6 @@ void map::add_site_by_noise(const double& threshold, const uint16_t& site_id, st
         }
     }
 }
-
 void map::set_biome_by_noise(const double& threshold, const uint16_t& biome_id, std::function<bool(double, double)> op, const std::vector<std::vector<double>>& noise)
 {
     for (column_type i = 0; i < width; ++i)
