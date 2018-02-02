@@ -1,5 +1,5 @@
 #ifndef DEF_WEIGHTED_DISTRIBUTION_H
-#define DEF_WEIGHTED_CHANCE_STRUCTURE_H
+#define DEF_WEIGHTED_DISTRIBUTION_H
 #include <vector>
 #include <random>
 #include <numeric>
