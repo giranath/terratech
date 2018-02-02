@@ -17,7 +17,7 @@ class uniform_ressource_distribution_by_point
 
 public:
     uniform_ressource_distribution_by_point() = delete;
-    uniform_ressource_distribution_by_point(std::vector<site_id_type> sites_id, dimension_type width, dimension_type height) :
+    uniform_ressource_distribution_by_point(std::vector<site_id_type> sites_id, const dimension_type& width, const dimension_type& height) :
         sites_id{ sites_id.begin(), sites_id.end()},
         point_distribution{0, 0, width, height}{}
 
