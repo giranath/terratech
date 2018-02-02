@@ -1,6 +1,7 @@
 #include "map.h"
 #include "perlin_noise.h"
 #include "ppm.h"
+#include "ressource_generator.h"
 
 #include <helper.hpp>
 #include <vector>
@@ -42,9 +43,14 @@ int main()
         }
     }
 
-    Map m(width, height);
+    map m(width, height);
+    
+    ressource_generator ressource_gen{m.regions};
+    m.set_biome_by_noise(0.5, 1, std::less<double>(), v);
 
-    m.add_site_by_noise(0.5, 0, std::less<double>(), v);
+    //ressource_gen.generate_by_random_points(500, { 2,3,4 },width,height);
+    ressource_gen.generate_by_weight_and_biome({ {0,{{0,20}, {1,0.5},{ 2,1 } }},{ 1,{ { 0,20 },{ 3,0.5 },{ 4,1 } } } });
+    
     //start with grass color
     std::vector<std::vector<rgb>> image_vector(width, std::vector<rgb>(height, rgb(96, 128, 56)));
 
@@ -53,11 +59,20 @@ int main()
         for (size_t j = 0; j < height; ++j)
         {
             //Replace with water color
-            if (m.get_region(i, j).has_site(0))
+            if (m.get_region(i, j).get_biome() == 1)
                 image_vector[i][j] = rgb(64, 164, 223);
+            if (m.get_region(i, j).has_site(1))
+                image_vector[i][j] = rgb(0, 0, 255);
+            if (m.get_region(i, j).has_site(2))
+                image_vector[i][j] = rgb(0, 255, 0);
+            if (m.get_region(i, j).has_site(3))
+                image_vector[i][j] = rgb(255, 0, 0);
+            if (m.get_region(i, j).has_site(4))
+                image_vector[i][j] = rgb(255, 255, 255);
         }
     }
     
+  
     std::ofstream file("water.ppm");
     ppm image(image_vector);
     image.write(file);
