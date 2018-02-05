@@ -1,6 +1,7 @@
 stages:
   - build
   - doc
+  - deployment
 
 #===========================================================================
 # TEMPLATES
@@ -89,3 +90,21 @@ doc:generate api:
   only:
     - develop
     - master
+
+#===========================================================================
+# DEPLOYMENT
+#===========================================================================
+deployment:develop:
+  stage: deployment
+  dependencies:
+    - build:osx
+    - build:windows
+    - build:linux:gcc
+    - build:linux:clang
+    - doc:generate api
+  script:
+    - ./script/deploy $CI_COMMIT_SHA
+  tags:
+    - deployment
+  only:
+    - develop

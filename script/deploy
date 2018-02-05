@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+COMMIT_HASH=$1
+ENVIRONMENT="develop"
+
+echo "starting deployment for $COMMIT_HASH"
+ls -la
