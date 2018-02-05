@@ -52,16 +52,36 @@ public:
         }
     }
 
-    void generate_by_elimination(std::vector<std::pair<uint16_t, int16_t>> site_bag)
+    void generate_by_elimination(std::vector<std::pair<uint16_t , std::vector<std::pair<uint16_t, int16_t>>>>& site_bag)
     {
-        elimination_distribution<uint16_t> distribution(site_bag);
-        uniform_point_distribution<size_t> point_distribution(0, 0, regions.size() -1, regions.front().size() -1);
+        std::vector<std::pair<uint16_t, elimination_distribution<uint16_t>>> distributions;
+        uniform_point_distribution<size_t> point_distribution{0, 0, regions.size() -1, regions.front().size() - 1};
+        distributions.reserve(site_bag.size() - 1);
 
-        while(!distribution.empty())
+        for (auto& v : site_bag)
         {
-            point<size_t> p = point_distribution(engine);
-            uint16_t site_id = distribution(engine);
-            regions[p.x][p.y].add_site(site_id);
+            distributions.push_back({ v.first, elimination_distribution<uint16_t>{v.second} });
+        }
+
+        point<size_t> p = point_distribution(engine);
+        while (!distributions.empty())
+        {
+            
+            uint16_t biome = regions[p.x][p.y].get_biome();
+            auto it = find_if(distributions.begin(), distributions.end(), [&biome](std::pair<uint16_t, elimination_distribution<uint16_t>>& value) {
+                return biome == value.first;
+            });
+
+            if (it != distributions.end() && !it->second.empty())
+            {
+                regions[p.x][p.y].add_site(it->second(engine));
+            }
+            else if (it != distributions.end() && it->second.empty())
+            {
+                distributions.erase(it);
+            }
+
+            p = point_distribution(engine);
         }
     }
 };
