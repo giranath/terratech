@@ -106,5 +106,5 @@ deployment:develop:
     - ./script/deploy $CI_COMMIT_SHA
   tags:
     - deployment
-  only:
-    - develop
+#  only:
+#    - develop
