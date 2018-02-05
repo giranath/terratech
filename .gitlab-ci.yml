@@ -104,6 +104,10 @@ deployment:develop:
     - doc:generate api
   script:
     - ./script/deploy $CI_COMMIT_SHA
+  artifacts:
+    paths:
+      - deployment.tar.gz
+    expire_in: 1 week
   tags:
     - deployment
 #  only:
