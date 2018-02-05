@@ -13,12 +13,14 @@ ENVIRONMENT="develop"
 # |   |   |   +-- osx
 # |   |   +-- doc
 
+find build-debug/
+
 mkdir "deployment"
 mkdir "deployment/doc"
 
 # Place headers
 mv include "deployment"
-mv build-doc/generated_doc/html/ "deployment/doc"
+mv build-doc/generated_doc/html/* "deployment/doc"
 
 # Create archive
 tar -zcvf deployment.tar.gz deployment
