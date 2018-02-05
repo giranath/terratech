@@ -87,9 +87,9 @@ doc:generate api:
     expire_in: 1 week
   tags:
     - documentation
-  only:
-    - develop
-    - master
+#  only:
+#    - develop
+#    - master
 
 #===========================================================================
 # DEPLOYMENT

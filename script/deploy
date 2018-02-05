@@ -3,5 +3,26 @@
 COMMIT_HASH=$1
 ENVIRONMENT="develop"
 
-echo "starting deployment for $COMMIT_HASH"
-ls -la
+# /srv/terratech
+# +-- dev
+# |   +-- HASH_ID
+# |   |   +-- include
+# |   |   +-- lib
+# |   |   |   +-- windows
+# |   |   |   +-- linux
+# |   |   |   +-- osx
+# |   |   +-- doc
+
+mkdir "deployment"
+mkdir "deployment/doc"
+
+# Place headers
+mv include "deployment"
+mv build-doc/generated_doc/html/* "deployment/doc"
+
+# Create archive
+tar -zcvf deployment.tar.gz deployment
+
+# TODO: Create directory structure for Windows
+# TODO: Create directory structure for Linux
+# TODO: Create directory structure for OS X
