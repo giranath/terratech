@@ -2,7 +2,6 @@ stages:
   - build
   - doc
   - packaging
-  - deployment
 
 #===========================================================================
 # TEMPLATES
@@ -131,25 +130,3 @@ packaging:osx:
     expire_in: 1 week
   tags:
     - osx
-
-#===========================================================================
-# DEPLOYMENT
-#===========================================================================
-deployment:develop:
-  stage: deployment
-  dependencies:
-    - build:osx
-    - build:windows
-    - build:linux:gcc
-    - build:linux:clang
-    - doc:generate api
-  script:
-    - ./script/deploy $CI_COMMIT_SHA
-  artifacts:
-    paths:
-      - deployment.tar.gz
-    expire_in: 1 week
-  tags:
-    - deployment
-#  only:
-#    - develop
