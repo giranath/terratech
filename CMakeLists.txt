@@ -83,5 +83,19 @@ endif(BUILD_DOC)
 # PACKAGING
 #==========================================================================
 if (BUILD_PACKAGE)
+	include(InstallRequiredSystemLibraries)
+	set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CMAKE_PROJECT_DESCRIPTION}")
+	set(CPACK_PACKAGE_VENDOR "Nathan Giraldeau & Dominic Nault")
+	set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+	#set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Copyright.txt")
+	set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+	set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+	set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+	if(WIN32 AND NOT UNIX)
+		set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} MapGen")
+		set(CPACK_NSIS_CONTACT "nathan.giradleau@usherbrooke.ca")
+	endif()
+
 	include(CPack)
 endif()
