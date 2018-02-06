@@ -1,6 +1,7 @@
 stages:
   - build
   - doc
+  - packaging
 
 #===========================================================================
 # TEMPLATES
@@ -8,12 +9,27 @@ stages:
 .build_template: &build_definition
   stage: build
   before_script:
-    - cmake -E remove_directory build-debug
-    - cmake -E make_directory build-debug
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
   script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build .
   allow_failure: false
+
+.package_template: &package_definition
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+  dependencies:
+    - doc:generate api
+  only:
+    - develop
+    - master
 
 #===========================================================================
 # BUILD 
@@ -22,49 +38,49 @@ build:osx:
   <<: *build_definition
   artifacts:
     paths:
-      - build-debug/libmapgen.*dylib*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*dylib*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - osx
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - CC=gcc CXX=g++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build .
   artifacts:
     paths:
-      - build-debug/libmapgen.*so*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*so*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
 build:linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - CC=clang CXX=clang++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build .
   artifacts:
     paths:
-      - build-debug/libmapgen.*so*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*so*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
 build:windows:
   <<: *build_definition
   script:
-      - cmake -E chdir build-debug cmake -DBUILD_TEST=ON ..
-      - cmake -E chdir build-debug cmake --build .
+      - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+      - cmake -E chdir build cmake --build .
   artifacts:
     paths:
-      - build-debug\Debug\mapgen.lib
-      - build-debug\Debug\mapgen.pdb
-      - build-debug\test\Debug\biometexgen.exe
-      - build-debug\test\Debug\noisetexgen.exe
+      - build\Debug\mapgen.lib
+      - build\Debug\mapgen.pdb
+      - build\test\Debug\biometexgen.exe
+      - build\test\Debug\noisetexgen.exe
     expire_in: 1 week
   tags:
     - windows
@@ -84,8 +100,33 @@ doc:generate api:
     paths:
       - build-doc/generated_doc
     expire_in: 1 week
+  dependencies: []
   tags:
     - documentation
   only:
     - develop
     - master
+
+#===========================================================================
+# PACKAGING
+#===========================================================================
+packaging:linux:
+  <<: *package_definition
+  artifacts:
+    paths:
+      - build/MapGeneration-0.1.1-Linux.sh
+      - build/MapGeneration-0.1.1-Linux.tar.gz
+      - build/MapGeneration-0.1.1-Linux.tar.Z
+    expire_in: 1 week
+  tags:
+    - linux
+
+packaging:osx:
+  <<: *package_definition
+  artifacts:
+    paths:
+    - build/MapGeneration-0.1.1-Darwin.sh
+    - build/MapGeneration-0.1.1-Darwin.tar.gz
+    expire_in: 1 week
+  tags:
+    - osx
