@@ -34,7 +34,8 @@ add_library(mapgen
 	src/perlin_noise.cpp
 	include/biome_table.hpp
 	src/biome_table.cpp)
-set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION}
+                                        SOVERSION ${PROJECT_VERSION_MAJOR})
 
 # Install generated binaries
 install(TARGETS mapgen
