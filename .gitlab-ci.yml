@@ -104,6 +104,7 @@ sanitation:no warnings:linux:gcc:
   allow_failure: true
   except:
     - master
+    - develop
   tags:
     - linux
     - gcc
@@ -113,6 +114,7 @@ sanitation:no warnings:linux:clang:
   allow_failure: true
   except:
     - master
+    - develop
   tags:
     - linux
     - clang
@@ -125,6 +127,7 @@ sanitation:no warnings:linux:gcc:
     - gcc
   only:
     - master
+    - develop
 
 sanitation:no warnings:linux:clang:
   <<: *no_warns_definition
@@ -133,6 +136,7 @@ sanitation:no warnings:linux:clang:
     - clang
   only:
     - master
+    - develop
 
 #===========================================================================
 # DOCUMENTATION
