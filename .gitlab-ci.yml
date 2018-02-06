@@ -86,6 +86,7 @@ doc:generate api:
     paths:
       - build-doc/generated_doc
     expire_in: 1 week
+  dependencies: []
   tags:
     - documentation
 #  only:je le

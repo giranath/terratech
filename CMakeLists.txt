@@ -74,8 +74,4 @@ endif(BUILD_DOC)
 #==========================================================================
 if (BUILD_PACKAGE)
 	include(CPack)
-
-	if(ADD_DOC_DEP)
-		add_dependencies(package doc)
-	endif()
 endif()
