@@ -1,6 +1,7 @@
 stages:
   - build
   - doc
+  - packaging
   - deployment
 
 #===========================================================================
@@ -12,7 +13,7 @@ stages:
     - cmake -E remove_directory build
     - cmake -E make_directory build
   script:
-    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DBUILD_CMAKE_TYPE=Release ..
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build .
   allow_failure: false
 
@@ -32,7 +33,7 @@ build:osx:
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DBUILD_CMAKE_TYPE=Release ..
+    - CC=gcc CXX=g++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build .
   artifacts:
     paths:
@@ -45,7 +46,7 @@ build:linux:gcc:
 build:linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DBUILD_CMAKE_TYPE=Release ..
+    - CC=clang CXX=clang++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build .
   artifacts:
     paths:
@@ -58,7 +59,7 @@ build:linux:clang:
 build:windows:
   <<: *build_definition
   script:
-      - cmake -E chdir build cmake -DBUILD_TEST=ON -DBUILD_CMAKE_TYPE=Release ..
+      - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
       - cmake -E chdir build cmake --build .
   artifacts:
     paths:
@@ -90,6 +91,24 @@ doc:generate api:
 #  only:je le
 #    - develop
 #    - master
+
+#===========================================================================
+# PACKAGING
+#===========================================================================
+packaging:linux:clang:
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+    - ls -la
+  dependencies:
+    - doc:generate api
+  tags:
+    - linux
 
 #===========================================================================
 # DEPLOYMENT

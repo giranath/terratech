@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 #==========================================================================
 option(BUILD_DOC "Generate documentation")
 option(BUILD_TEST "Build tests")
+option(BUILD_PACKAGE "Generate distribution packages")
 
 #==========================================================================
 # MAIN LIBRARY
@@ -31,10 +32,20 @@ add_library(mapgen
 	src/biome_table.cpp)
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
+# Install generated binaries
+install(TARGETS mapgen
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib)
+install(DIRECTORY include/
+	DESTINATION include
+	FILES_MATCHING PATTERN "*.h")
+
 if (BUILD_TEST)
 	add_subdirectory(test)
 endif ()
 
+set(ADD_DOC_DEP false)
 #==========================================================================
 # DOCUMENTATION 
 #==========================================================================
@@ -50,6 +61,21 @@ if (BUILD_DOC)
 		                  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 		                  COMMENT "Generating API documentation with Doxygen"
 		                  VERBATIM)
-
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/generated_doc/man/man3
+		        DESTINATION share/man)
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/generated_doc/html
+		        DESTINATION share)
+		set(ADD_DOC_DEP true)
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
+
+#==========================================================================
+# PACKAGING
+#==========================================================================
+if (BUILD_PACKAGE)
+	include(CPack)
+
+	if(ADD_DOC_DEP)
+		add_dependencies(package doc)
+	endif()
+endif()
