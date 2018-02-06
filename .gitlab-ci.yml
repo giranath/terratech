@@ -120,23 +120,23 @@ sanitation:no warnings:linux:clang:
     - clang
 
 # Failure is not allowed on master
-sanitation:no warnings:linux:gcc:
-  <<: *no_warns_definition
-  tags:
-    - linux
-    - gcc
-  only:
-    - master
-    - develop
+#sanitation:no warnings:linux:gcc:
+#  <<: *no_warns_definition
+#  only:
+#    - master
+#    - develop
+#  tags:
+#    - linux
+#    - gcc
 
-sanitation:no warnings:linux:clang:
-  <<: *no_warns_definition
-  tags:
-    - linux
-    - clang
-  only:
-    - master
-    - develop
+#sanitation:no warnings:linux:clang:
+#  <<: *no_warns_definition
+#  only:
+#    - master
+#    - develop
+#  tags:
+#    - linux
+#    - clang
 
 #===========================================================================
 # DOCUMENTATION
