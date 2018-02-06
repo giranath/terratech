@@ -1,7 +1,8 @@
 stages:
-  - build
-  - doc
-  - packaging
+  - build                # Build binaries
+  - sanitation           # Execute some sanitation tests on the code
+  - doc                  # Generates the documentation
+  - packaging            # Packages the project
 
 #===========================================================================
 # TEMPLATES
@@ -30,6 +31,15 @@ stages:
   only:
     - develop
     - master
+
+.sanitation:no warnings: &no_warns_definition
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Werror -Wall -Wextra" ..
+    - cmake --build build
 
 #===========================================================================
 # BUILD 
@@ -84,6 +94,21 @@ build:windows:
     expire_in: 1 week
   tags:
     - windows
+
+#===========================================================================
+# SANITATION
+#===========================================================================
+sanitation:no warnings:linux:gcc:
+  <<: *no_warns_definition
+  tags:
+    - linux
+    - gcc
+
+sanitation:no warnings:linux:clang:
+  <<: *no_warns_definition
+  tags:
+    - linux
+    - clang
 
 #===========================================================================
 # DOCUMENTATION
