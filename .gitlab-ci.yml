@@ -98,17 +98,41 @@ build:windows:
 #===========================================================================
 # SANITATION
 #===========================================================================
+# Failure is allowed on branches that aren't master
 sanitation:no warnings:linux:gcc:
   <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
   tags:
     - linux
     - gcc
 
 sanitation:no warnings:linux:clang:
   <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
   tags:
     - linux
     - clang
+
+# Failure is not allowed on master
+sanitation:no warnings:linux:gcc:
+  <<: *no_warns_definition
+  tags:
+    - linux
+    - gcc
+  only:
+    - master
+
+sanitation:no warnings:linux:clang:
+  <<: *no_warns_definition
+  tags:
+    - linux
+    - clang
+  only:
+    - master
 
 #===========================================================================
 # DOCUMENTATION
