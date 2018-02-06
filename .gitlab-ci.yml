@@ -13,7 +13,7 @@ stages:
     - cmake -E make_directory build
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build .
+    - cmake --build build
   allow_failure: false
 
 .package_template: &package_definition
@@ -47,8 +47,8 @@ build:osx:
 build:linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
+    - cmake --build build
   artifacts:
     paths:
       - build/libmapgen.*so*
@@ -60,8 +60,8 @@ build:linux:gcc:
 build:linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+    - cmake --build build
   artifacts:
     paths:
       - build/libmapgen.*so*
@@ -74,7 +74,7 @@ build:windows:
   <<: *build_definition
   script:
       - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
-      - cmake -E chdir build cmake --build .
+      - cmake --build build
   artifacts:
     paths:
       - build\Debug\mapgen.lib
@@ -95,7 +95,7 @@ doc:generate api:
     - cmake -E make_directory build-doc
   script:
     - cmake -E chdir build-doc cmake -DBUILD_DOC=ON ..
-    - cmake -E chdir build-doc cmake --build . --target doc
+    - cmake --build build-doc --target doc
   artifacts:
     paths:
       - build-doc/generated_doc
@@ -114,9 +114,9 @@ packaging:linux:
   <<: *package_definition
   artifacts:
     paths:
-      - build/MapGeneration-0.1.1-Linux.sh
-      - build/MapGeneration-0.1.1-Linux.tar.gz
-      - build/MapGeneration-0.1.1-Linux.tar.Z
+      - build/MapGeneration-*-Linux.sh
+      - build/MapGeneration-*-Linux.tar.gz
+      - build/MapGeneration-*-Linux.tar.Z
     expire_in: 1 week
   tags:
     - linux
@@ -125,8 +125,17 @@ packaging:osx:
   <<: *package_definition
   artifacts:
     paths:
-    - build/MapGeneration-0.1.1-Darwin.sh
-    - build/MapGeneration-0.1.1-Darwin.tar.gz
+    - build/MapGeneration-*-Darwin.sh
+    - build/MapGeneration-*-Darwin.tar.gz
     expire_in: 1 week
   tags:
     - osx
+
+packaging:windows:
+  <<: *package_definition
+  artifacts:
+    paths:
+    - build/MapGeneration-*-win32.exe
+    expire_in: 1 week
+  tags:
+    - windows
