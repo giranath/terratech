@@ -11,6 +11,10 @@ option(BUILD_DOC "Generate documentation")
 option(BUILD_TEST "Build tests")
 option(BUILD_PACKAGE "Generate distribution packages")
 
+configure_file("${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake.in"
+               "${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake"
+               @ONLY)
+
 #==========================================================================
 # MAIN LIBRARY
 #==========================================================================
@@ -34,12 +38,17 @@ set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
 # Install generated binaries
 install(TARGETS mapgen
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib)
+        EXPORT mapgen-targets
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib/mapgen
+        ARCHIVE DESTINATION lib/mapgen)
 install(DIRECTORY include/
-	DESTINATION include
-	FILES_MATCHING PATTERN "*.h")
+        DESTINATION include/mapgen
+        FILES_MATCHING PATTERN "*.h")
+install(EXPORT mapgen-targets
+        DESTINATION lib/mapgen)
+install(FILES mapgen-config.cmake mapgen-config-version.cmake
+        DESTINATION lib/mapgen)
 
 if (BUILD_TEST)
 	add_subdirectory(test)
