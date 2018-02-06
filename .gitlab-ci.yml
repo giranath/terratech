@@ -17,6 +17,19 @@ stages:
     - cmake -E chdir build cmake --build .
   allow_failure: false
 
+.package_template: &package_definition
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+    - ls -la
+  dependencies:
+    - doc:generate api
+
 #===========================================================================
 # BUILD 
 #===========================================================================
@@ -89,67 +102,31 @@ doc:generate api:
   dependencies: []
   tags:
     - documentation
-#  only:je le
-#    - develop
-#    - master
+only:
+    - develop
+    - master
 
 #===========================================================================
 # PACKAGING
 #===========================================================================
 packaging:linux:
-  stage: packaging
-  before_script:
-    - cmake -E remove_directory build
-    - cmake -E make_directory build
-    - cmake -E rename build-doc/generated_doc build/generated_doc
-  script:
-    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build . --target package
-    - ls -la
+  <<: *package_definition
   artifacts:
     paths:
       - build/MapGeneration-0.1.1-Linux.sh
       - build/MapGeneration-0.1.1-Linux.tar.gz
       - build/MapGeneration-0.1.1-Linux.tar.Z
     expire_in: 1 week
-  dependencies:
-    - doc:generate api
   tags:
     - linux
 
-packaging:windows:
-  stage: packaging
-  before_script:
-    - cmake -E remove_directory build
-    - cmake -E make_directory build
-    - cmake -E rename build-doc/generated_doc build/generated_doc
-  script:
-    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build . --target package
-    - ls -la
-#  artifacts:
-#    paths:
-#    expire_in: 1 week
-  dependencies:
-    - doc:generate api
-  tags:
-    - windows
-
 packaging:osx:
-  stage: packaging
-  before_script:
-    - cmake -E remove_directory build
-    - cmake -E make_directory build
-    - cmake -E rename build-doc/generated_doc build/generated_doc
-  script:
-    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake -E chdir build cmake --build . --target package
-    - ls -la
-#  artifacts:
-#    paths:
-#    expire_in: 1 week
-  dependencies:
-    - doc:generate api
+  <<: *package_definition
+  artifacts:
+    paths:
+    - build/MapGeneration-0.1.1-Darwin.sh
+    - build/MapGeneration-0.1.1-Darwin.tar.gz
+    expire_in: 1 week
   tags:
     - osx
 
