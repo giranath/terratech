@@ -96,7 +96,7 @@ doc:generate api:
 #===========================================================================
 # PACKAGING
 #===========================================================================
-packaging:linux:clang:
+packaging:linux:
   stage: packaging
   before_script:
     - cmake -E remove_directory build
@@ -111,10 +111,47 @@ packaging:linux:clang:
       - build/MapGeneration-0.1.1-Linux.sh
       - build/MapGeneration-0.1.1-Linux.tar.gz
       - build/MapGeneration-0.1.1-Linux.tar.Z
+    expire_in: 1 week
   dependencies:
     - doc:generate api
   tags:
     - linux
+
+packaging:windows:
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+    - ls -la
+#  artifacts:
+#    paths:
+#    expire_in: 1 week
+  dependencies:
+    - doc:generate api
+  tags:
+    - windows
+
+packaging:osx:
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+    - ls -la
+#  artifacts:
+#    paths:
+#    expire_in: 1 week
+  dependencies:
+    - doc:generate api
+  tags:
+    - osx
 
 #===========================================================================
 # DEPLOYMENT
