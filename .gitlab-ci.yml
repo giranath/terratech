@@ -26,9 +26,11 @@ stages:
   script:
     - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build . --target package
-    - ls -la
   dependencies:
     - doc:generate api
+  only:
+    - develop
+    - master
 
 #===========================================================================
 # BUILD 
@@ -102,7 +104,7 @@ doc:generate api:
   dependencies: []
   tags:
     - documentation
-only:
+  only:
     - develop
     - master
 
