@@ -101,9 +101,9 @@ build:windows:
 # Failure is allowed on branches that aren't master
 sanitation:soft no warnings:linux:gcc:
   variables:
-    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
-    - CXX_COMPILER: "g++"
-    - C_COMPILER:   "gcc"
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
   <<: *no_warns_definition
   allow_failure: true
   except:
@@ -115,9 +115,9 @@ sanitation:soft no warnings:linux:gcc:
 
 sanitation:soft no warnings:linux:clang:
   variables:
-    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
-    - CXX_COMPILER: "clang++"
-    - C_COMPILER:   "clang"
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
   <<: *no_warns_definition
   allow_failure: true
   except:
@@ -130,9 +130,9 @@ sanitation:soft no warnings:linux:clang:
 # Failure is not allowed on master
 sanitation:no warnings:linux:gcc:
   variables:
-    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
-    - CXX_COMPILER: "g++"
-    - C_COMPILER:   "gcc"
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
   <<: *no_warns_definition
   only:
     - master
@@ -143,9 +143,9 @@ sanitation:no warnings:linux:gcc:
 
 sanitation:no warnings:linux:clang:
   variables:
-    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
-    - CXX_COMPILER: "clang++"
-    - C_COMPILER:   "clang"
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
   <<: *no_warns_definition
   only:
     - master
