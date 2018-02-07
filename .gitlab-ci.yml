@@ -27,7 +27,7 @@ stages:
     - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build . --target package
   dependencies:
-    - doc:generate api
+    - generate API documentation
   only:
     - develop
     - master
