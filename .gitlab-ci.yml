@@ -128,6 +128,22 @@ soft no warnings:linux:clang:
     - linux
     - clang
 
+soft no warnings:windows:
+  stage: sanitation
+  allow_failure: true
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX" ..
+    - cmake --build build
+  dependencies: []
+  only:
+    - master
+    - develop
+  tags:
+    - windows
+
 # Failure is not allowed on master
 no warnings:linux:gcc:
   variables:
@@ -154,6 +170,21 @@ no warnings:linux:clang:
   tags:
     - linux
     - clang
+
+no warnings:windows:
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX" ..
+    - cmake --build build
+  dependencies: []
+  only:
+    - master
+    - develop
+  tags:
+    - windows
 
 #===========================================================================
 # DOCUMENTATION
