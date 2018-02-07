@@ -24,7 +24,7 @@ stages:
     - cmake -E make_directory build
     - cmake -E rename build-doc/generated_doc build/generated_doc
   script:
-    - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build . --target package
   dependencies:
     - generate API documentation

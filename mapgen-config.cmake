@@ -8,4 +8,4 @@ find_library(mapgen_LIBRARY
              PATH_SUFFIXES mapgen
              NO_DEFAULT_PATH)
 
-set(mapgen_LIBRARIES ${MAPGEN_LIBRARY})
+set(mapgen_LIBRARIES ${mapgen_LIBRARY})
