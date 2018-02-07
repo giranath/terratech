@@ -4,6 +4,11 @@ project(MapGeneration VERSION 0.2.0 DESCRIPTION "A map generator for games")
 
 set(CMAKE_CXX_STANDARD 14)
 
+# If library name is changed, do not forget to update:
+# - mapgen-config.cmake
+# - the namespace in C++ files
+# - rename API
+
 #==========================================================================
 # OPTIONS
 #==========================================================================
