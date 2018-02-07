@@ -1,7 +1,8 @@
 stages:
-  - build
-  - doc
-  - packaging
+  - build                # Build binaries
+  - sanitation           # Execute some sanitation tests on the code
+  - doc                  # Generates the documentation
+  - packaging            # Packages the project
 
 #===========================================================================
 # TEMPLATES
@@ -26,15 +27,25 @@ stages:
     - cmake -E chdir build cmake -DCMAKE_BUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
     - cmake -E chdir build cmake --build . --target package
   dependencies:
-    - doc:generate api
+    - generate API documentation
   only:
     - develop
     - master
 
+.sanitation:no warnings: &no_warns_definition
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_C_COMPILER="$C_COMPILER" -DCMAKE_CXX_COMPILER="$CXX_COMPILER" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$WARNING_AS_ERROR_FLAGS" ..
+    - cmake --build build
+  dependencies: []
+
 #===========================================================================
 # BUILD 
 #===========================================================================
-build:osx:
+osx:
   <<: *build_definition
   artifacts:
     paths:
@@ -44,7 +55,7 @@ build:osx:
     expire_in: 1 week
   tags:
     - osx
-build:linux:gcc:
+linux:gcc:
   <<: *build_definition
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
@@ -57,7 +68,7 @@ build:linux:gcc:
     expire_in: 1 week
   tags:
     - linux
-build:linux:clang:
+linux:clang:
   <<: *build_definition
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
@@ -70,7 +81,7 @@ build:linux:clang:
     expire_in: 1 week
   tags:
     - linux
-build:windows:
+windows:
   <<: *build_definition
   script:
       - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
@@ -86,9 +97,99 @@ build:windows:
     - windows
 
 #===========================================================================
+# SANITATION
+#===========================================================================
+# Failure is allowed on branches that aren't master
+soft no warnings:linux:gcc:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
+  <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
+    - develop
+  tags:
+    - linux
+    - gcc
+
+soft no warnings:linux:clang:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
+  <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
+    - develop
+  tags:
+    - linux
+    - clang
+
+soft no warnings:windows:
+  stage: sanitation
+  allow_failure: true
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX /wd4530" ..
+    - cmake --build build
+  dependencies: []
+  except:
+    - master
+    - develop
+  tags:
+    - windows
+
+# Failure is not allowed on master
+no warnings:linux:gcc:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
+  <<: *no_warns_definition
+  only:
+    - master
+    - develop
+  tags:
+    - linux
+    - gcc
+
+no warnings:linux:clang:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
+  <<: *no_warns_definition
+  only:
+    - master
+    - develop
+  tags:
+    - linux
+    - clang
+
+no warnings:windows:
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX /wd4530" ..
+    - cmake --build build
+  dependencies: []
+  only:
+    - master
+    - develop
+  tags:
+    - windows
+
+#===========================================================================
 # DOCUMENTATION
 #===========================================================================
-doc:generate api:
+generate API documentation:
   stage: doc
   before_script:
     - cmake -E remove_directory build-doc

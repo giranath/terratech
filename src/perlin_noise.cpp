@@ -92,7 +92,7 @@ double perlin_noise::octave_noise(const double &x, const double &y, const double
     double total = 0;
     double frequency = 1;
     double amplitude = 1;
-    for (int i = 0; i < octaves; i++) {
+    for (std::uint32_t i = 0; i < octaves; i++) {
         total += raw_noise(x * frequency, y * frequency, z * frequency) * amplitude;
 
         amplitude *= multiplier;

@@ -3,9 +3,9 @@
 namespace mapgen {
 
 map::map(column_type width, row_type heigth)
-: regions(width, std::vector<region>(height, region()))
-, width(width)
-, height(heigth) {}
+: width(width)
+, height(heigth)
+, regions(width, std::vector<region>(height, region())){}
 
 void map::add_site_by_noise(const double &threshold, const uint16_t &site_id, predicate pred,
                             const std::vector <std::vector<double>> &noise) {
