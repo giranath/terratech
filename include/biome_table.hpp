@@ -15,7 +15,7 @@ private:
     std::vector<biome_type> biomes;
 public:
     biome_axis() = default;
-    biome_axis(index count, biome_type default_biome = NO_SPECIAL_BIOME);
+    explicit biome_axis(index count, biome_type default_biome = NO_SPECIAL_BIOME);
 
     void set_biome_at(index i, biome_type biome) noexcept;
     biome_type biome_at(index i) const noexcept;
@@ -25,7 +25,7 @@ public:
     biome_type biome_with(PERCENT percent) const noexcept {
         static_assert(std::is_floating_point<PERCENT>::value, "floating type is required");
 
-        return biome_at((count() - 1) * percent);
+        return biome_at(static_cast<index>((count() - 1) * percent));
     }
 };
 
@@ -50,7 +50,9 @@ public:
     template<typename PERCENT>
     biome_type biome_with(PERCENT col, PERCENT row) const noexcept {
         static_assert(std::is_floating_point<PERCENT>::value, "floating type is required");
-        return biome_at((col_count() - 1) * col, (row_count() - 1) * row);
+
+        return biome_at(static_cast<column_type>((col_count() - 1) * col),
+                        static_cast<row_type>((row_count() - 1) * row));
     }
 };
 
