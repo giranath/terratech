@@ -34,11 +34,15 @@ stages:
 
 .sanitation:no warnings: &no_warns_definition
   stage: sanitation
+  variable:
+    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    - CXX_COMPILER: "g++"
+    - C_COMPILER:   "gcc"
   before_script:
     - cmake -E remove_directory build
     - cmake -E make_directory build
   script:
-    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Werror -Wall -Wextra" ..
+    - cmake -E chdir build cmake -DCMAKE_C_COMPILER="C_COMPILER" -DCMAKE_CXX_COMPILER="$CXX_COMPILER" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$WARNING_AS_ERROR_FLAGS" ..
     - cmake --build build
 
 #===========================================================================
@@ -101,6 +105,10 @@ build:windows:
 # Failure is allowed on branches that aren't master
 sanitation:soft no warnings:linux:gcc:
   <<: *no_warns_definition
+  variable:
+    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    - CXX_COMPILER: "g++"
+    - C_COMPILER:   "gcc"
   allow_failure: true
   except:
     - master
@@ -111,6 +119,10 @@ sanitation:soft no warnings:linux:gcc:
 
 sanitation:soft no warnings:linux:clang:
   <<: *no_warns_definition
+  variable:
+    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    - CXX_COMPILER: "clang++"
+    - C_COMPILER:   "clang"
   allow_failure: true
   except:
     - master
@@ -122,6 +134,10 @@ sanitation:soft no warnings:linux:clang:
 # Failure is not allowed on master
 sanitation:no warnings:linux:gcc:
   <<: *no_warns_definition
+  variable:
+    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    - CXX_COMPILER: "g++"
+    - C_COMPILER:   "gcc"
   only:
     - master
     - develop
@@ -131,6 +147,10 @@ sanitation:no warnings:linux:gcc:
 
 sanitation:no warnings:linux:clang:
   <<: *no_warns_definition
+  variable:
+    - WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    - CXX_COMPILER: "clang++"
+    - C_COMPILER:   "clang"
   only:
     - master
     - develop
