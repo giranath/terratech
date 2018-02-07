@@ -1,15 +1,15 @@
 #ifndef DEF_REGION_H
 #define DEF_REGION_H
 
+#include "map_type.h"
+
 #include <vector>
 #include <cstdint>
 #include <algorithm>
 
 class region
 {
-    using id_type = uint16_t;
-    using biome_type = uint16_t;
-    std::vector<id_type> sites;
+    std::vector<site_type> sites;
     biome_type biome;
 public:
     region() : biome{} {}
@@ -19,19 +19,23 @@ public:
     {
         biome = _biome;
     }
-    biome_type get_biome()
+    biome_type get_biome() const
     {
         return biome;
     }
 
-    void add_site(id_type site_id)
+    void add_site(site_type site_id)
     {
         sites.push_back(site_id);
     }
 
-    bool has_site(id_type site_id)
+    bool has_site(site_type site_id) const
     {
         return std::find(sites.begin(), sites.end(), site_id) != sites.end();
+    }
+    bool has_a_site() const
+    {
+        return !sites.empty();
     }
 };
 

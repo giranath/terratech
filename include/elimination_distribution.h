@@ -26,6 +26,17 @@ public:
         return site_bag.empty();
     }
 
+    nb_of_site_type remaining_at(element_type element)
+    {
+        auto it = std::find_if(site_bag.begin(), site_bag.end(), [&element](std::pair<element_type, nb_of_site_type>& v){
+            return v.first == element;
+        });
+        if (it == site_bag.end())
+        {
+            return 0;
+        }
+        return it->second;
+    }
     //ALWAYS check empty before using or else it will return the default constructor of element_type
     int operator()(std::default_random_engine& engine)
     {
