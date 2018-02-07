@@ -138,7 +138,7 @@ soft no warnings:windows:
     - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX" ..
     - cmake --build build
   dependencies: []
-  only:
+  except:
     - master
     - develop
   tags:
