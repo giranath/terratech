@@ -45,7 +45,7 @@ stages:
 #===========================================================================
 # BUILD 
 #===========================================================================
-build:osx:
+osx:
   <<: *build_definition
   artifacts:
     paths:
@@ -55,7 +55,7 @@ build:osx:
     expire_in: 1 week
   tags:
     - osx
-build:linux:gcc:
+linux:gcc:
   <<: *build_definition
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
@@ -68,7 +68,7 @@ build:linux:gcc:
     expire_in: 1 week
   tags:
     - linux
-build:linux:clang:
+linux:clang:
   <<: *build_definition
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
@@ -81,7 +81,7 @@ build:linux:clang:
     expire_in: 1 week
   tags:
     - linux
-build:windows:
+windows:
   <<: *build_definition
   script:
       - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
@@ -100,7 +100,7 @@ build:windows:
 # SANITATION
 #===========================================================================
 # Failure is allowed on branches that aren't master
-sanitation:soft no warnings:linux:gcc:
+soft no warnings:linux:gcc:
   variables:
     WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
     CXX_COMPILER: "g++"
@@ -114,7 +114,7 @@ sanitation:soft no warnings:linux:gcc:
     - linux
     - gcc
 
-sanitation:soft no warnings:linux:clang:
+soft no warnings:linux:clang:
   variables:
     WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
     CXX_COMPILER: "clang++"
@@ -129,7 +129,7 @@ sanitation:soft no warnings:linux:clang:
     - clang
 
 # Failure is not allowed on master
-sanitation:no warnings:linux:gcc:
+no warnings:linux:gcc:
   variables:
     WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
     CXX_COMPILER: "g++"
@@ -142,7 +142,7 @@ sanitation:no warnings:linux:gcc:
     - linux
     - gcc
 
-sanitation:no warnings:linux:clang:
+no warnings:linux:clang:
   variables:
     WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
     CXX_COMPILER: "clang++"
@@ -158,7 +158,7 @@ sanitation:no warnings:linux:clang:
 #===========================================================================
 # DOCUMENTATION
 #===========================================================================
-doc:generate api:
+generate API documentation:
   stage: doc
   before_script:
     - cmake -E remove_directory build-doc

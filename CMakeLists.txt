@@ -4,9 +4,6 @@ project(MapGeneration VERSION 0.2.0 DESCRIPTION "A map generator for games")
 
 set(CMAKE_CXX_STANDARD 14)
 
-MESSAGE("CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-MESSAGE("C_FLAGS: ${CMAKE_C_FLAGS}")
-
 #==========================================================================
 # OPTIONS
 #==========================================================================
