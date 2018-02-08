@@ -1,6 +1,6 @@
 #ifndef DEF_PROBABILITY_STRUCTURE_H
 #define DEF_PROBABILITY_STRUCTURE_H
-#include "map_type.h"
+#include "map_type.hpp"
 
 #include <map>
 #include <vector>

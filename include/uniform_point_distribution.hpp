@@ -1,7 +1,7 @@
 #ifndef DEF_UNIFORM_POINT_DISTRIBUTION_H
 #define DEF_UNIFORM_POINT_DISTRIBUTION_H
 
-#include "point.h"
+#include "point.hpp"
 
 #include <random>
 

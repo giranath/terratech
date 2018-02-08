@@ -1,9 +1,9 @@
 #ifndef DEF_MAP_H
 #define DEF_MAP_H
 
-#include "region.h"
-#include "map_type.h"
-#include "probability_structure.h"
+#include "region.hpp"
+#include "map_type.hpp"
+#include "probability_structure.hpp"
 
 #include <vector>
 #include <algorithm>

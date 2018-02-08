@@ -1,7 +1,7 @@
 #ifndef DEF_REGION_H
 #define DEF_REGION_H
 
-#include "map_type.h"
+#include "map_type.hpp"
 
 #include <vector>
 #include <cstdint>

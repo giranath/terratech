@@ -1,8 +1,8 @@
 #ifndef DEF_UNIFORM_RESSOURCE_DISTRIBUTION_BY_POINT_H
 #define DEF_UNIFORM_RESSOURCE_DISTRIBUTION_BY_POINT_H
 
-#include "point.h"
-#include "uniform_point_distribution.h"
+#include "point.hpp"
+#include "uniform_point_distribution.hpp"
 
 #include <vector>
 #include <random>

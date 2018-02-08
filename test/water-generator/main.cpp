@@ -1,8 +1,7 @@
-#include "map.h"
-#include "perlin_noise.h"
-
+#include "map.hpp"
+#include "perlin_noise.hpp"
 #include "ppm.h"
-#include "probability_structure.h"
+#include "probability_structure.hpp"
 
 #include <helper.hpp>
 #include <vector>
@@ -29,7 +28,7 @@ int main()
     std::cin >> height;
     std::cout << std::endl;
 
-    mapgen::Perlin_noise perl(seed);
+    mapgen::perlin_noise perl(seed);
 
     std::vector<std::vector<double>> v(width, std::vector<double>(height));
 

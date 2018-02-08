@@ -1,7 +1,7 @@
-#include "../include/map.h"
-#include "../include/uniform_ressource_distribution_by_point.h"
-#include "../include/weighted_distribution.h"
-#include "../include/elimination_distribution.h"
+#include "../include/map.hpp"
+#include "../include/uniform_ressource_distribution_by_point.hpp"
+#include "../include/weighted_distribution.hpp"
+#include "../include/elimination_distribution.hpp"
 namespace mapgen
 {
 map::map(column_type width, row_type height, uint32_t seed) :
