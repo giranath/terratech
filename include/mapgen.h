@@ -155,7 +155,95 @@ mapgen_error mapgen_layer_set_property(mapgen_layer_handle layer, mapgen_propert
 
 /**
  * \page biomes_table Biomes table
- * Describe what are biome tables
+ * A biome table is a simple representation of biome distribution.\n
+ * It works by dividing two axis into blocks creating a table.\n
+ * For exemple, let's say you want to create this biome distribution table:
+ * <table>
+ *  <caption>Simple biome table</caption>
+ *  <tr>
+ *      <th colspan="2"></th>
+ *      <th colspan="6">Temperature</th>
+ *  </tr>
+ *  <tr>
+ *     <th rowspan="5">Humidity</th>
+ *     <th>Percent</th>
+ *     <th>0.1667</th>
+ *     <th>0.3333</th>
+ *     <th>0.5</th>
+ *     <th>0.6667</th>
+ *     <th>0.8334</th>
+ *     <th>1.0</th>
+ *  </tr>
+ *  <tr>
+ *    <th>1.0</th>
+ *    <td colspan="3">FOREST</td>
+ *    <td>SWAMP</td>
+ *    <td colspan="2">RAIN FOREST</td>
+ *  </tr>
+ *  <tr>
+ *    <th>0.75</th>
+ *    <td colspan="2">TAIGA</td>
+ *    <td colspan="2">FOREST</td>
+ *    <td colspan="2">SEASONAL_FOREST</td>
+ *  </tr>
+ *  <tr>
+ *    <th>0.5</th>
+ *    <td>TUNDRA</td>
+ *    <td>TAIGA</td>
+ *    <td colspan="2">WOODS</td>
+ *    <td colspan="2">SAVANNA</td>
+ *  </tr>
+ *  <tr>
+ *    <th>0.25</th>
+ *    <td colspan="2">TUNDRA</td>
+ *    <td colspan="2">GRASS DESERT</td>
+ *    <td colspan="2">DESERT</td>
+ *  </tr>
+ * </table>
+ * You need to write the following code:
+ * \code{.c}
+// Create a map
+mapgen_map* map = mapgen_map_create();
+
+// Attach noises to the map
+mapgen_layer_handle temperature = mapgen_map_add_noise_layer(map, MAPGEN_NOISE_PERLIN);
+mapgen_layer_handle humidity = mapgen_map_add_noise_layer(map, MAPGEN_NOISE_PERLIN);
+
+// Create a biome table in the map
+mapgen_biome_table* biome_table = mapgen_map_enable_biomes(map, 6, 4, temperature, humidity);
+
+// Bottom row
+mapgen_biome_table_set(biome_table, 0, 0, BIOME_TUNDRA);
+mapgen_biome_table_set(biome_table, 1, 0, BIOME_TUNDRA);
+mapgen_biome_table_set(biome_table, 2, 0, BIOME_GRASS_DESERT);
+mapgen_biome_table_set(biome_table, 3, 0, BIOME_GRASS_DESERT);
+mapgen_biome_table_set(biome_table, 4, 0, BIOME_DESERT);
+mapgen_biome_table_set(biome_table, 5, 0, BIOME_DESERT);
+
+// Second row
+mapgen_biome_table_set(biome_table, 0, 1, BIOME_TUNDRA);
+mapgen_biome_table_set(biome_table, 1, 1, BIOME_TAIGA);
+mapgen_biome_table_set(biome_table, 2, 1, BIOME_WOODS);
+mapgen_biome_table_set(biome_table, 3, 1, BIOME_WOODS);
+mapgen_biome_table_set(biome_table, 4, 1, BIOME_SAVANNA);
+mapgen_biome_table_set(biome_table, 5, 1, BIOME_SAVANNA);
+
+// Third row
+mapgen_biome_table_set(biome_table, 0, 2, BIOME_TAIGA);
+mapgen_biome_table_set(biome_table, 1, 2, BIOME_TAIGA);
+mapgen_biome_table_set(biome_table, 2, 2, BIOME_FOREST);
+mapgen_biome_table_set(biome_table, 3, 2, BIOME_FOREST);
+mapgen_biome_table_set(biome_table, 4, 2, BIOME_SEASONAL_FOREST);
+mapgen_biome_table_set(biome_table, 5, 2, BIOME_SEASONAL_FOREST);
+
+// Top row
+mapgen_biome_table_set(biome_table, 0, 3, BIOME_FOREST);
+mapgen_biome_table_set(biome_table, 1, 3, BIOME_FOREST);
+mapgen_biome_table_set(biome_table, 2, 3, BIOME_FOREST);
+mapgen_biome_table_set(biome_table, 3, 3, BIOME_SWAMP);
+mapgen_biome_table_set(biome_table, 4, 3, BIOME_RAIN_FOREST);
+mapgen_biome_table_set(biome_table, 5, 3, BIOME_RAIN_FOREST);
+ * \endcode
  */
 
 /**
