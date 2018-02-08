@@ -256,7 +256,7 @@ deploy:
   script:
     - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_WEBPAGE=ON -DCMAKE_BUILD_TYPE=Release ..
   script:
-    - script/deploy.sh
+    - script/deploy.sh /srv/terratech
   dependencies:
     - packaging:windows
     - packaging:osx
