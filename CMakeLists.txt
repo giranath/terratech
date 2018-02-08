@@ -31,8 +31,6 @@ add_library(mapgen
 	include/clump.hpp
 	src/map.cpp
 	include/region.hpp
-	src/region.cpp
-	src/region.cpp
 	include/perlin_noise.hpp
 	src/perlin_noise.cpp
 	include/biome_table.hpp
