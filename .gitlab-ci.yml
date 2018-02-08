@@ -256,5 +256,8 @@ deploy:
     - packaging:osx
     - packaging:linux
     - generate API documentation
+  only:
+    - develop
+    - master
   tags:
     - deployment
