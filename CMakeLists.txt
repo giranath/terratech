@@ -28,6 +28,7 @@ add_library(mapgen
 	"${ROOT}/include/uniform_ressource_distribution_by_point.h"
 	"${ROOT}/include/probability_structure.h"
 	"${ROOT}/include/map_type.h"
+	"${ROOT}/include/clump.h"
 	"${ROOT}/src/mapgen_api.cpp"
 	"${ROOT}/src/perlin_noise.cpp"
 	"${ROOT}/src/map.cpp"
