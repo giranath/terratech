@@ -29,11 +29,11 @@ public:
     void set_biome_by_noise(const double& threshold, const biome_type& biome_id, std::function<bool(double, double)> op, const std::vector<std::vector<double>>& noise);
 
     void set_biome_at(const column_type& x, const column_type& y, const biome_type& biome_id);
-    biome_type get_biome_at(const column_type& width, const row_type& height) const;
+    biome_type get_biome_at(const column_type& x, const row_type& y) const;
 
     void add_site_at(const column_type& x, const column_type& y, const site_type& site_id);
-    bool has_site_at(const column_type& width, const row_type& height, const site_type& site_id);
-    bool has_a_site_at(const column_type& width, const row_type& height);
+    bool has_site_at(const column_type& x, const row_type& y, const site_type& site_id);
+    bool has_a_site_at(const column_type& x, const row_type& y);
 
     void generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width, const size_t& height);
     void generate_by_weight_and_biome(probability_structure<double>& biome_weighted_struct);

@@ -54,26 +54,26 @@ void map::set_biome_at(const column_type& x, const column_type& y, const biome_t
     biomes_count[biome_id] = ++biomes_count[biome_id];
 }
 
-biome_type map::get_biome_at(const column_type& width, const row_type& height) const
+biome_type map::get_biome_at(const column_type& x, const row_type& y) const
 {
-    return regions[width][height].get_biome();
+    return regions[x][y].get_biome();
 }
 
-bool map::has_site_at(const column_type& width, const row_type& height, const site_type& site_id)
+bool map::has_site_at(const column_type& x, const row_type& y, const site_type& site_id)
 {
-    return regions[width][height].has_site(site_id);
+    return regions[x][y].has_site(site_id);
 }
-bool map::has_a_site_at(const column_type& width, const row_type& height)
+bool map::has_a_site_at(const column_type& x, const row_type& y)
 {
-    return regions[width][height].has_a_site();
+    return regions[x][y].has_a_site();
 }
 
-void map::generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width, const size_t& height)
+void map::generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width_size, const size_t& height_size)
 {
-    uniform_ressource_distribution_by_point distribution(ressources_id, width, height);
+    uniform_ressource_distribution_by_point distribution(ressources_id, width_size, height_size);
     for (uint16_t i = 0; i < number_of_ressoure; ++i)
     {
-        std::pair<point<size_t>, uint16_t> p = distribution(engine);
+        std::pair<point<size_t>, site_type> p = distribution(engine);
         regions[p.first.x][p.first.y].add_site(p.second);
     }
 }
@@ -116,7 +116,7 @@ void map::generate_by_elimination(probability_structure<int16_t>& site_bag)
     while (!distributions.empty())
     {
 
-        uint16_t biome = regions[p.x][p.y].get_biome();
+        biome_type biome = regions[p.x][p.y].get_biome();
         auto it = find_if(distributions.begin(), distributions.end(), [&biome](std::pair<biome_type, elimination_distribution<site_type>>& value) {
             return biome == value.first;
         });
