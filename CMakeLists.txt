@@ -47,14 +47,18 @@ install(TARGETS mapgen
         EXPORT mapgen-targets
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib/mapgen
-        ARCHIVE DESTINATION lib/mapgen)
+        ARCHIVE DESTINATION lib/mapgen
+        COMPONENT libraries)
 install(DIRECTORY include/
         DESTINATION include/mapgen
+        COMPONENT headers
         FILES_MATCHING PATTERN "*.h")
 install(EXPORT mapgen-targets
-        DESTINATION lib/mapgen)
+        DESTINATION lib/mapgen
+        COMPONENT cmake)
 install(FILES mapgen-config.cmake mapgen-config-version.cmake
-        DESTINATION lib/mapgen)
+        DESTINATION lib/mapgen
+        COMPONENT cmake)
 
 if (BUILD_TEST)
 	add_subdirectory(test)
@@ -77,9 +81,11 @@ if (BUILD_DOC)
 		                  COMMENT "Generating API documentation with Doxygen"
 		                  VERBATIM)
 		install(DIRECTORY ${CMAKE_BINARY_DIR}/generated_doc/man/man3
-		        DESTINATION share/man)
+		        DESTINATION share/man
+		        COMPONENT documentation)
 		install(DIRECTORY ${CMAKE_BINARY_DIR}/generated_doc/html
-		        DESTINATION share)
+		        DESTINATION share
+		        COMPONENT documentation)
 		set(ADD_DOC_DEP true)
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
@@ -89,6 +95,7 @@ endif(BUILD_DOC)
 #==========================================================================
 if (BUILD_PACKAGE)
 	include(InstallRequiredSystemLibraries)
+	set(CPACK_PACKAGE_NAME "mapgen")
 	set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CMAKE_PROJECT_DESCRIPTION}")
 	set(CPACK_PACKAGE_VENDOR "Nathan Giraldeau & Dominic Nault")
 	set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
@@ -96,10 +103,18 @@ if (BUILD_PACKAGE)
 	set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 	set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 	set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+	set(CPACK_COMPONENTS_ALL library headers cmake documentation)
+	set(CPACK_COMPONENT_HEADERS_DEPENDS library)
+	set(CPACK_COMPONENT_CMAKE_DEPENDS library)
 
 	if(WIN32 AND NOT UNIX)
+		set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 		set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} MapGen")
 		set(CPACK_NSIS_CONTACT "nathan.giradleau@usherbrooke.ca")
+	endif()
+
+	if(APPLE)
+		SET(CPACK_GENERATOR "productbuild;STGZ;TGZ")
 	endif()
 
 	include(CPack)
