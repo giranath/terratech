@@ -31,10 +31,16 @@ add_library(mapgen
 	include/mapgen.h
 	src/mapgen_api.cpp
 	include/map.hpp
+	include/point.hpp
+	include/weighted_distribution.hpp
+	include/elimination_distribution.hpp
+	include/uniform_point_distribution.hpp
+	include/uniform_ressource_distribution_by_point.hpp
+	include/probability_structure.hpp
+	include/map_type.hpp
+	include/clump.hpp
 	src/map.cpp
 	include/region.hpp
-	src/region.cpp
-	src/region.cpp
 	include/perlin_noise.hpp
 	src/perlin_noise.cpp
 	include/biome_table.hpp

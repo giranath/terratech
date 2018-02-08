@@ -43,6 +43,7 @@ void perlin_noise::seed(const seed_type &seed) noexcept {
 }
 
 //Output range is between [-0.707, 0,707]
+
 double perlin_noise::raw_noise(double x, double y, double z) const noexcept {
     int X = (int) floor(x) & 255;
     int Y = (int) floor(y) & 255;

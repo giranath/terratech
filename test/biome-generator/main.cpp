@@ -36,6 +36,7 @@ enum {
     BIOME_COUNT
 };
 
+
 mapgen_map* create_map(int seed);
 
 void setup_biomes_table(mapgen_biome_table* table);
