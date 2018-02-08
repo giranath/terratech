@@ -115,9 +115,11 @@ if (BUILD_PACKAGE)
 
 	set(CPACK_COMPONENT_CMAKE_DISPLAY_NAME "CMake related files")
 	set(CPACK_COMPONENT_CMAKE_DESCRIPTION "Installs files to simplify the integration of the development libraries with CMake")
+	set(CPACK_COMPONENT_CMAKE_REQUIRED False)
 
 	set(CPACK_COMPONENT_DOCUMENTATION_DISPLAY_NAME "Documentation")
 	set(CPACK_COMPONENT_DOCUMENTATION_DESCRIPTION "Installs the library's official documentation")
+	set(CPACK_COMPONENT_DOCUMENTATION_REQUIRED True)
 
 	if(WIN32 AND NOT UNIX)
 		set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
@@ -126,7 +128,11 @@ if (BUILD_PACKAGE)
 	endif()
 
 	if(APPLE)
-		SET(CPACK_GENERATOR "productbuild;STGZ;TGZ")
+		set(CPACK_GENERATOR "productbuild;STGZ;TGZ")
+	endif()
+
+	if(UNIX)
+		set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 	endif()
 
 	include(CPack)
