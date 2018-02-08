@@ -46,7 +46,9 @@ set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION}
 install(TARGETS mapgen
         EXPORT mapgen-targets
         RUNTIME DESTINATION bin
+        COMPONENT libraries
         LIBRARY DESTINATION lib/mapgen
+        COMPONENT libraries
         ARCHIVE DESTINATION lib/mapgen
         COMPONENT libraries)
 install(DIRECTORY include/
@@ -103,15 +105,16 @@ if (BUILD_PACKAGE)
 	set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 	set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 	set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
-	set(CPACK_COMPONENTS_ALL library headers cmake documentation)
+
+	set(CPACK_COMPONENTS_ALL libraries headers cmake documentation)
 
 	set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "Public headers")
 	set(CPACK_COMPONENT_HEADERS_DESCRIPTION "Installs the librarie's public headers.")
 	set(CPACK_COMPONENT_HEADERS_REQUIRED True)
 
-	set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "Development libraries")
-	set(CPACK_COMPONENT_LIBRARY_DESCRIPTION "Installs the development libraries")
-	set(CPACK_COMPONENT_LIBRARY_REQUIRED True)
+	set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "Development libraries")
+	set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Installs the development libraries")
+	set(CPACK_COMPONENT_LIBRARIES_REQUIRED True)
 
 	set(CPACK_COMPONENT_CMAKE_DISPLAY_NAME "CMake related files")
 	set(CPACK_COMPONENT_CMAKE_DESCRIPTION "Installs files to simplify the integration of the development libraries with CMake")
@@ -119,7 +122,7 @@ if (BUILD_PACKAGE)
 
 	set(CPACK_COMPONENT_DOCUMENTATION_DISPLAY_NAME "Documentation")
 	set(CPACK_COMPONENT_DOCUMENTATION_DESCRIPTION "Installs the library's official documentation")
-	set(CPACK_COMPONENT_DOCUMENTATION_REQUIRED True)
+	set(CPACK_COMPONENT_DOCUMENTATION_REQUIRED False)
 
 	if(WIN32 AND NOT UNIX)
 		set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
