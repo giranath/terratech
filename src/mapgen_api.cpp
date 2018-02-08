@@ -27,6 +27,7 @@ int mapgen_version_get_patch() {
 //==============================================================================
 // MAP
 //==============================================================================
+/// \private
 struct mapgen_layer {
     mapgen_map* owner;
     mapgen::perlin_noise* noise;
@@ -38,6 +39,7 @@ struct mapgen_layer {
     }
 };
 
+/// \private
 struct mapgen_biome_table {
     enum class type_t {
         Unknown,
@@ -62,6 +64,7 @@ struct mapgen_biome_table {
     }
 };
 
+/// \private
 struct mapgen_map {
     std::vector<mapgen::perlin_noise> noises;
     std::vector<std::unique_ptr<mapgen_layer>> layers;
