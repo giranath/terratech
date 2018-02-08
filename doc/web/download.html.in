@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Download ${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">TerraTech</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doc/index.html">Documentation</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="download.html">Download</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Download links -->
+        <h1>Download ${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</h1>
+        <h2>Binary distribution</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Windows</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Linux</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mac OS X</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Source distribution</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Format</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Compressed tar archive (.tgz)</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tar archive (.tar)</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Zip archive (.zip)</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Or you can clone the <a href="https://minla.dinf.usherbrooke.ca/projets/mmap">git repository</a></p>
+
+        <h2>Older versions</h2>
+        <p>Add links to older versions</p>
+    </body>
+</html>

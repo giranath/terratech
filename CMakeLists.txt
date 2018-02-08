@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 14)
 option(BUILD_DOC "Generate documentation")
 option(BUILD_TEST "Build tests")
 option(BUILD_PACKAGE "Generate distribution packages")
+option(BUILD_WEBPAGE "Generate Web pages")
 
 configure_file("${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake.in"
                "${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake"
@@ -91,6 +92,12 @@ if (BUILD_DOC)
 		set(ADD_DOC_DEP true)
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
+
+if (BUILD_WEBPAGE)
+	configure_file("${CMAKE_SOURCE_DIR}/doc/web/index.html.in" "${CMAKE_SOURCE_DIR}/doc/web/index.html")
+	configure_file("${CMAKE_SOURCE_DIR}/doc/web/download.html.in" "${CMAKE_SOURCE_DIR}/doc/web/download.html")
+	configure_file("${CMAKE_SOURCE_DIR}/doc/project_info.txt.in" "${CMAKE_SOURCE_DIR}/doc/project_info.txt")
+endif(BUILD_WEBPAGE)
 
 #==========================================================================
 # PACKAGING

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">TerraTech</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doc/index.html">Documentation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="download.html">Download</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1>${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</h1>
+        <h2>${CMAKE_PROJECT_DESCRIPTION}</h2>
+
+        <h3>TerraTech generates world maps for you</h3>
+        <p>
+            TerraTech provides a simple interface to generate world maps. The library is targetted at a video game development audience.
+            But can be used in various environment
+        </p>
+
+        <h3>TerraTech is multi-platforms</h3>
+        <p>
+            TerraTech compiles and runs on various platforms. Our top tier supported platforms are:
+            <ul>
+                <li>Linux</li>
+                <li>Mac OS X</li>
+                <li>Windows</li>
+            </ul>
+            These are our top tiers because we assure that the code compile on these platforms.
+        </p>
+
+        <h3>TerraTech is multi-languages</h3>
+        <p>
+            TerraTech exposes a C-ANSI API. Thanks to that, the library can be used from any languages supporting FFI.
+        </p>
+
+        <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+        </script>
+    </body>
+</html>
