@@ -215,9 +215,9 @@ packaging:linux:
   <<: *package_definition
   artifacts:
     paths:
-      - build/MapGeneration-*-Linux.sh
-      - build/MapGeneration-*-Linux.tar.gz
-      - build/MapGeneration-*-Linux.tar.Z
+      - build/mapgen-*-Linux.sh
+      - build/mapgen-*-Linux.tar.gz
+      - build/mapgen-*-Linux.tar.Z
     expire_in: 1 week
   tags:
     - linux
@@ -226,8 +226,9 @@ packaging:osx:
   <<: *package_definition
   artifacts:
     paths:
-    - build/MapGeneration-*-Darwin.sh
-    - build/MapGeneration-*-Darwin.tar.gz
+    - build/mapgen-*-Darwin.sh
+    - build/mapgen-*-Darwin.tar.gz
+    - build/mapgen-*-Darwin.pkg
     expire_in: 1 week
   tags:
     - osx
@@ -236,7 +237,7 @@ packaging:windows:
   <<: *package_definition
   artifacts:
     paths:
-    - build/MapGeneration-*-win32.exe
+    - build/mapgen-*-win32.exe
     expire_in: 1 week
   tags:
     - windows
