@@ -29,9 +29,9 @@ stages:
     - cmake -E chdir build cmake --build . --target package
   dependencies:
     - generate API documentation
-  only:
-    - develop
-    - master
+#  only:
+#    - develop
+#    - master
 
 .sanitation:no warnings: &no_warns_definition
   stage: sanitation
@@ -205,9 +205,9 @@ generate API documentation:
   dependencies: []
   tags:
     - documentation
-  only:
-    - develop
-    - master
+#  only:
+#    - develop
+#    - master
 
 #===========================================================================
 # PACKAGING
@@ -247,8 +247,14 @@ packaging:windows:
 # DEPLOY
 #===========================================================================
 deploy:
+  stage: deploy
   variables:
     ROOT: /srv/terratech
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_WEBPAGE=ON -DCMAKE_BUILD_TYPE=Release ..
   script:
     - script/deploy.sh
   dependencies:
@@ -256,8 +262,8 @@ deploy:
     - packaging:osx
     - packaging:linux
     - generate API documentation
-  only:
-    - develop
-    - master
+#  only:
+#    - develop
+#    - master
   tags:
     - deployment
