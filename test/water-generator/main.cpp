@@ -1,5 +1,6 @@
 #include "map.h"
 #include "perlin_noise.h"
+
 #include "ppm.h"
 #include "probability_structure.h"
 
@@ -9,7 +10,6 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-
 
 int main()
 {
@@ -38,7 +38,6 @@ int main()
         for (size_t j = 0; j < height; ++j)
         {
             double val = perl.octave_noise(static_cast<double>(j) / width, static_cast<double>(i) / height, 0.0, 8, 0.5);
-            val = helper::clamp(helper::normalize(val, -0.707, 0.707), 0.0, 1.0);
             v[i][j] = val;
         }
     }

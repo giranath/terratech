@@ -86,7 +86,6 @@ void map::generate_by_weight_and_biome(probability_structure<double>& biome_weig
     {
         distributions.push_back({ v, weighted_distribution<site_type>{biome_weighted_struct.get_site_occurence(v)} });
     }
-
     for (auto& row : regions)
     {
         for (auto& val : row)
@@ -137,3 +136,4 @@ void map::generate_by_elimination(probability_structure<int16_t>& site_bag)
     }
 }
 }
+

@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(MapGeneration VERSION 0.1.0 DESCRIPTION "A map generator for games")
+project(MapGeneration VERSION 0.2.0 DESCRIPTION "A map generator for games")
 
-set(CMAKE_CXX_STANDARD 11)
-set(ROOT ${CMAKE_SOURCE_DIR})
+set(CMAKE_CXX_STANDARD 14)
 
 #==========================================================================
 # OPTIONS
@@ -14,28 +13,30 @@ option(BUILD_TEST "Build tests")
 #==========================================================================
 # MAIN LIBRARY
 #==========================================================================
-configure_file("${ROOT}/include/mapgen_config.h.in" 
-               "${ROOT}/include/mapgen_config.h")
+configure_file("${CMAKE_SOURCE_DIR}/include/mapgen_config.h.in"
+               "${CMAKE_SOURCE_DIR}/include/mapgen_config.h")
 add_library(mapgen
-	"${ROOT}/include/mapgen_config.h"
-	"${ROOT}/include/mapgen.h"
-	"${ROOT}/include/map.h"
-	"${ROOT}/include/region.h"
-	"${ROOT}/include/point.h"
-	"${ROOT}/include/weighted_distribution.h"
-	"${ROOT}/include/elimination_distribution.h"
-	"${ROOT}/include/uniform_point_distribution.h"
-	"${ROOT}/include/uniform_ressource_distribution_by_point.h"
-	"${ROOT}/include/probability_structure.h"
-	"${ROOT}/include/map_type.h"
-	"${ROOT}/include/clump.h"
-	"${ROOT}/src/mapgen_api.cpp"
-	"${ROOT}/src/perlin_noise.cpp"
-	"${ROOT}/src/map.cpp"
-	"${ROOT}/include/perlin_noise.h"
-	"${ROOT}/include/biome_table.hpp"
-	"${ROOT}/src/biome_table.cpp"
-)
+	include/mapgen_errors.h
+	include/mapgen_config.h
+	include/mapgen.h
+	src/mapgen_api.cpp
+	include/map.hpp
+	include/point.hpp
+	include/weighted_distribution.hpp
+	include/elimination_distribution.hpp
+	include/uniform_point_distribution.hpp
+	include/uniform_ressource_distribution_by_point.hpp
+	include/probability_structure.hpp
+	include/map_type.hpp
+	include/clump.hpp
+	src/map.cpp
+	include/region.hpp
+	src/region.cpp
+	src/region.cpp
+	include/perlin_noise.hpp
+	src/perlin_noise.cpp
+	include/biome_table.hpp
+	src/biome_table.cpp)
 set_target_properties(mapgen PROPERTIES VERSION ${PROJECT_VERSION})
 
 if (BUILD_TEST)
@@ -49,14 +50,14 @@ if (BUILD_DOC)
 	# To generate the documentation, Doxygen is required
 	find_package(Doxygen)
 	if (DOXYGEN_FOUND)
-		configure_file("${ROOT}/doc/Doxyfile.in"
-			       "${ROOT}/doc/Doxyfile")
+		configure_file("${CMAKE_SOURCE_DIR}/doc/Doxyfile.in"
+		               "${CMAKE_SOURCE_DIR}/doc/Doxyfile")
 		
 		add_custom_target(doc
-			COMMAND ${DOXYGEN_EXECUTABLE} "${ROOT}/doc/Doxyfile"
-			WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-			COMMENT "Generating API documentation with Doxygen"
-			VERBATIM)
+		                  COMMAND ${DOXYGEN_EXECUTABLE} "${ROOT}/doc/Doxyfile"
+		                  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+		                  COMMENT "Generating API documentation with Doxygen"
+		                  VERBATIM)
 
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
