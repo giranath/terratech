@@ -17,7 +17,7 @@ struct rgb {
     , b(b) {}
 };
 
-std::ostream &operator<<(std::ostream &os, rgb color) {
+std::ostream& operator<<(std::ostream &os, rgb color) {
     return os << static_cast<int>(color.r) << " "
               << static_cast<int>(color.g) << " "
               << static_cast<int>(color.b);
