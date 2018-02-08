@@ -24,7 +24,7 @@ public:
 
         std::uniform_real_distribution<> distrubution(0, total);
         weight_type rnd = distrubution(engine);
-        T return_value;
+        T return_value{};
         for (auto& v : weighted_struct)
         {
             if (rnd < v.second)
