@@ -6,24 +6,27 @@
 
 #include "rgb.h"
 
-struct ppm {
-    ppm(const std::vector<std::vector<rgb>> &data)
-    : data(data)
-    , heigth(data.front().size())
-    , width(data.size()) {}
-
+class ppm {
     size_t width;
-    size_t heigth;
+    size_t height;
     std::vector<std::vector<rgb>> data;
 
-    std::ostream &write(std::ostream &out) const {
+public:
+    ppm(const std::vector<std::vector<rgb>> &data)
+    : width(data.size())
+    , height(data.front().size())
+    , data(data) {
+
+    }
+
+    std::ostream& write(std::ostream &out) const {
         out << "P3\n";
         out << width;
         out << " ";
-        out << heigth;
+        out << height;
         out << "\n255\n";
 
-        for (std::size_t y = 0; y < heigth; ++y) {
+        for (std::size_t y = 0; y < height; ++y) {
             for (std::size_t x = 0; x < width; ++x) {
                 out << data[x][y] << " ";
             }

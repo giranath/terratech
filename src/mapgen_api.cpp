@@ -27,6 +27,7 @@ int mapgen_version_get_patch() {
 //==============================================================================
 // MAP
 //==============================================================================
+/// \private
 struct mapgen_layer {
     mapgen_map* owner;
     mapgen::perlin_noise* noise;
@@ -38,6 +39,7 @@ struct mapgen_layer {
     }
 };
 
+/// \private
 struct mapgen_biome_table {
     enum class type_t {
         Unknown,
@@ -62,6 +64,7 @@ struct mapgen_biome_table {
     }
 };
 
+/// \private
 struct mapgen_map {
     std::vector<mapgen::perlin_noise> noises;
     std::vector<std::unique_ptr<mapgen_layer>> layers;
@@ -112,14 +115,14 @@ int mapgen_map_biome_at(struct mapgen_map* map, float x, float y) {
     if(map) {
         if(map->altitude_biomes.axis) {
             // 1. Check altitude biome
-            double altitude = (map->altitude_biomes.x_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f) + 0.707) / 1.414;
+            double altitude = map->altitude_biomes.x_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f);
 
             int altitude_biome = map->altitude_biomes.axis->biome_with(altitude);
 
             if(altitude_biome == mapgen::biome_axis::NO_SPECIAL_BIOME) {
                 if(map->biomes.table) {
-                    double col = (map->biomes.x_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f) + 0.707) / 1.414;
-                    double row = (map->biomes.y_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f) + 0.707) / 1.414;
+                    double col = map->biomes.x_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f);
+                    double row = map->biomes.y_axis->noise->octave_noise(x, y, 0.f, 8, 0.55f);
 
                     return map->biomes.table->biome_with(col, row);
                 }

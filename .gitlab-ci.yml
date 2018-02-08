@@ -1,6 +1,8 @@
 stages:
-  - build
-  - doc
+  - build                # Build binaries
+  - sanitation           # Execute some sanitation tests on the code
+  - doc                  # Generates the documentation
+  - packaging            # Packages the project
 
 #===========================================================================
 # TEMPLATES
@@ -8,84 +10,234 @@ stages:
 .build_template: &build_definition
   stage: build
   before_script:
-    - cmake -E remove_directory build-debug
-    - cmake -E make_directory build-debug
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
   script:
-    - cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake --build build
   allow_failure: false
+
+.package_template: &package_definition
+  stage: packaging
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+    - cmake -E rename build-doc/generated_doc build/generated_doc
+  script:
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_DOC=ON -DBUILD_PACKAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake -E chdir build cmake --build . --target package
+  dependencies:
+    - generate API documentation
+  only:
+    - develop
+    - master
+
+.sanitation:no warnings: &no_warns_definition
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_C_COMPILER="$C_COMPILER" -DCMAKE_CXX_COMPILER="$CXX_COMPILER" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$WARNING_AS_ERROR_FLAGS" ..
+    - cmake --build build
+  dependencies: []
 
 #===========================================================================
 # BUILD 
 #===========================================================================
-build:osx:
+osx:
   <<: *build_definition
   artifacts:
     paths:
-      - build-debug/libmapgen.*dylib*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*dylib*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - osx
-build:linux:gcc:
+linux:gcc:
   <<: *build_definition
   script:
-    - CC=gcc CXX=g++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
+    - cmake --build build
   artifacts:
     paths:
-      - build-debug/libmapgen.*so*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*so*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
-build:linux:clang:
+linux:clang:
   <<: *build_definition
   script:
-    - CC=clang CXX=clang++ cmake -E chdir build-debug cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON ..
-    - cmake -E chdir build-debug cmake --build .
+    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+    - cmake --build build
   artifacts:
     paths:
-      - build-debug/libmapgen.*so*
-      - build-debug/test/biometexgen
-      - build-debug/test/noisetexgen
+      - build/libmapgen.*so*
+      - build/test/biometexgen
+      - build/test/noisetexgen
     expire_in: 1 week
   tags:
     - linux
-build:windows:
+windows:
   <<: *build_definition
   script:
-      - cmake -E chdir build-debug cmake -DBUILD_TEST=ON ..
-      - cmake -E chdir build-debug cmake --build .
+      - cmake -E chdir build cmake -DBUILD_TEST=ON -DCMAKE_BUILD_TYPE=Release ..
+      - cmake --build build
   artifacts:
     paths:
-      - build-debug\Debug\mapgen.lib
-      - build-debug\Debug\mapgen.pdb
-      - build-debug\test\Debug\biometexgen.exe
-      - build-debug\test\Debug\noisetexgen.exe
+      - build\Debug\mapgen.lib
+      - build\Debug\mapgen.pdb
+      - build\test\Debug\biometexgen.exe
+      - build\test\Debug\noisetexgen.exe
     expire_in: 1 week
+  tags:
+    - windows
+
+#===========================================================================
+# SANITATION
+#===========================================================================
+# Failure is allowed on branches that aren't master
+soft no warnings:linux:gcc:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
+  <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
+    - develop
+  tags:
+    - linux
+    - gcc
+
+soft no warnings:linux:clang:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
+  <<: *no_warns_definition
+  allow_failure: true
+  except:
+    - master
+    - develop
+  tags:
+    - linux
+    - clang
+
+soft no warnings:windows:
+  stage: sanitation
+  allow_failure: true
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX /wd4530" ..
+    - cmake --build build
+  dependencies: []
+  except:
+    - master
+    - develop
+  tags:
+    - windows
+
+# Failure is not allowed on master
+no warnings:linux:gcc:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "g++"
+    C_COMPILER:   "gcc"
+  <<: *no_warns_definition
+  only:
+    - master
+    - develop
+  tags:
+    - linux
+    - gcc
+
+no warnings:linux:clang:
+  variables:
+    WARNING_AS_ERROR_FLAGS: "-Werror -Wall -Wextra"
+    CXX_COMPILER: "clang++"
+    C_COMPILER:   "clang"
+  <<: *no_warns_definition
+  only:
+    - master
+    - develop
+  tags:
+    - linux
+    - clang
+
+no warnings:windows:
+  stage: sanitation
+  before_script:
+    - cmake -E remove_directory build
+    - cmake -E make_directory build
+  script:
+    - cmake -E chdir build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/W4 /WX /wd4530" ..
+    - cmake --build build
+  dependencies: []
+  only:
+    - master
+    - develop
   tags:
     - windows
 
 #===========================================================================
 # DOCUMENTATION
 #===========================================================================
-doc:generate api:
+generate API documentation:
   stage: doc
   before_script:
     - cmake -E remove_directory build-doc
     - cmake -E make_directory build-doc
   script:
     - cmake -E chdir build-doc cmake -DBUILD_DOC=ON ..
-    - cmake -E chdir build-doc cmake --build . --target doc
+    - cmake --build build-doc --target doc
   artifacts:
     paths:
       - build-doc/generated_doc
     expire_in: 1 week
+  dependencies: []
   tags:
     - documentation
   only:
     - develop
     - master
+
+#===========================================================================
+# PACKAGING
+#===========================================================================
+packaging:linux:
+  <<: *package_definition
+  artifacts:
+    paths:
+      - build/mapgen-*-Linux.sh
+      - build/mapgen-*-Linux.tar.gz
+      - build/mapgen-*-Linux.tar.Z
+    expire_in: 1 week
+  tags:
+    - linux
+
+packaging:osx:
+  <<: *package_definition
+  artifacts:
+    paths:
+    - build/mapgen-*-Darwin.sh
+    - build/mapgen-*-Darwin.tar.gz
+    - build/mapgen-*-Darwin.pkg
+    expire_in: 1 week
+  tags:
+    - osx
+
+packaging:windows:
+  <<: *package_definition
+  artifacts:
+    paths:
+    - build/mapgen-*-win32.exe
+    expire_in: 1 week
+  tags:
+    - windows
