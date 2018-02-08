@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</title>
+        <title>${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
@@ -21,7 +21,7 @@
             </div>
         </nav>
 
-        <h1>${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</h1>
+        <h1>${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</h1>
         <h2>${CMAKE_PROJECT_DESCRIPTION}</h2>
 
         <h3>TerraTech generates world maps for you</h3>

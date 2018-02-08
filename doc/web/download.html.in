@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Download ${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</title>
+        <title>Download ${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
@@ -22,7 +22,7 @@
         </nav>
 
         <!-- Download links -->
-        <h1>Download ${CMAKE_PROJECT_NAME} v.${CMAKE_PROJECT_VERSION}</h1>
+        <h1>Download ${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</h1>
         <h2>Binary distribution</h2>
         <table class="table">
             <thead>
