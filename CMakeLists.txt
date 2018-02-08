@@ -111,7 +111,7 @@ if (BUILD_PACKAGE)
 
 	set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "Development libraries")
 	set(CPACK_COMPONENT_LIBRARY_DESCRIPTION "Installs the development libraries")
-	set(CPACK_COMPONENT_HEADERS_REQUIRED True)
+	set(CPACK_COMPONENT_LIBRARY_REQUIRED True)
 
 	set(CPACK_COMPONENT_CMAKE_DISPLAY_NAME "CMake related files")
 	set(CPACK_COMPONENT_CMAKE_DESCRIPTION "Installs files to simplify the integration of the development libraries with CMake")
