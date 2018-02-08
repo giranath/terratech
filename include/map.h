@@ -11,7 +11,8 @@
 #include <functional>
 #include <map>
 #include <random>
-
+namespace mapgen
+{
 class map
 {
     column_type width;
@@ -20,7 +21,7 @@ class map
     std::vector<std::vector<region>> regions;
     std::map<biome_type, unsigned int> biomes_count;
     std::default_random_engine engine;
-public:   
+public:
 
     map(column_type width, row_type heigth, uint32_t seed);
 
@@ -38,5 +39,5 @@ public:
     void generate_by_weight_and_biome(probability_structure<double>& biome_weighted_struct);
     void generate_by_elimination(probability_structure<int16_t>& site_bag);
 };
-
+}
 #endif

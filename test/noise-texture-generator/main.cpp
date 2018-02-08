@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 	Arguments args = parse_arguments(argc, argv);
 
 	// Generate noise
-	Perlin_noise noise;
+	mapgen::Perlin_noise noise;
 
 	if(args.read_seed_from_stdin) {
 		uint32_t seed;

@@ -6,7 +6,8 @@
 #include <random>
 #include <limits>
 
-
+namespace mapgen
+{
 template <class T>
 class elimination_distribution
 {
@@ -28,7 +29,7 @@ public:
 
     nb_of_site_type remaining_at(element_type element)
     {
-        auto it = std::find_if(site_bag.begin(), site_bag.end(), [&element](std::pair<element_type, nb_of_site_type>& v){
+        auto it = std::find_if(site_bag.begin(), site_bag.end(), [&element](std::pair<element_type, nb_of_site_type>& v) {
             return v.first == element;
         });
         if (it == site_bag.end())
@@ -57,4 +58,5 @@ public:
         return site;
     }
 };
+}
 #endif

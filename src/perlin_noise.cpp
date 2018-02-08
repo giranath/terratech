@@ -4,7 +4,8 @@
 #include <numeric>
 
 #include "../include/perlin_noise.h"
-
+namespace mapgen
+{
 Perlin_noise::Perlin_noise(const uint32_t& seed_value)
 {
     seed(seed_value);
@@ -47,9 +48,9 @@ void Perlin_noise::seed(const uint32_t& seed)
 //Output range is between [-0.707, 0,707]
 double Perlin_noise::noise(double x, double y, double z) const
 {
-    int X = (int) floor(x) & 255;
-    int Y = (int) floor(y) & 255;
-    int Z = (int) floor(z) & 255;
+    int X = (int)floor(x) & 255;
+    int Y = (int)floor(y) & 255;
+    int Z = (int)floor(z) & 255;
 
     x -= floor(x);
     y -= floor(y);
@@ -65,7 +66,7 @@ double Perlin_noise::noise(double x, double y, double z) const
     int B = permutation[X + 1] + Y;
     int BA = permutation[B] + Z;
     int BB = permutation[B + 1] + Z;
-    return lerp(w, lerp(v, lerp(u, grad(permutation[AA], x, y, z), grad(permutation[BA], x-1, y, z)), lerp(u, grad(permutation[AB], x, y-1, z), grad(permutation[BB], x-1, y-1, z))),	lerp(v, lerp(u, grad(permutation[AA+1], x, y, z-1), grad(permutation[BA+1], x-1, y, z-1)), lerp(u, grad(permutation[AB+1], x, y-1, z-1),	grad(permutation[BB+1], x-1, y-1, z-1))));
+    return lerp(w, lerp(v, lerp(u, grad(permutation[AA], x, y, z), grad(permutation[BA], x - 1, y, z)), lerp(u, grad(permutation[AB], x, y - 1, z), grad(permutation[BB], x - 1, y - 1, z))), lerp(v, lerp(u, grad(permutation[AA + 1], x, y, z - 1), grad(permutation[BA + 1], x - 1, y, z - 1)), lerp(u, grad(permutation[AB + 1], x, y - 1, z - 1), grad(permutation[BB + 1], x - 1, y - 1, z - 1))));
 }
 
 double Perlin_noise::octave_noise(const double& x, const double& y, const double& z, const std::uint32_t& octaves, const double& multiplier) const
@@ -73,7 +74,7 @@ double Perlin_noise::octave_noise(const double& x, const double& y, const double
     double total = 0;
     double frequency = 1;
     double amplitude = 1;
-    for (int i = 0; i<octaves; i++) {
+    for (uint32_t i = 0; i < octaves; i++) {
         total += noise(x * frequency, y * frequency, z * frequency) * amplitude;
 
         amplitude *= multiplier;
@@ -81,4 +82,6 @@ double Perlin_noise::octave_noise(const double& x, const double& y, const double
     }
 
     return total;
+}
+
 }

@@ -2,12 +2,13 @@
 #include "../include/uniform_ressource_distribution_by_point.h"
 #include "../include/weighted_distribution.h"
 #include "../include/elimination_distribution.h"
-
-map::map(column_type width, row_type height, uint32_t seed) : 
-    width{width},
+namespace mapgen
+{
+map::map(column_type width, row_type height, uint32_t seed) :
+    width{ width },
     height{ height },
-    engine{seed},
-    biomes_count{ {0, height * width} },
+    engine{ seed },
+    biomes_count{ { 0, height * width } },
     regions{ width,std::vector<region>(height) }
 {
 }
@@ -134,4 +135,5 @@ void map::generate_by_elimination(probability_structure<int16_t>& site_bag)
 
         p = point_distribution(engine);
     }
+}
 }

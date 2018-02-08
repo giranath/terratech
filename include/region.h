@@ -6,7 +6,8 @@
 #include <vector>
 #include <cstdint>
 #include <algorithm>
-
+namespace mapgen
+{
 class region
 {
     std::vector<site_type> sites;
@@ -38,5 +39,5 @@ public:
         return !sites.empty();
     }
 };
-
+}
 #endif

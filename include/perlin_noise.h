@@ -3,7 +3,8 @@
 
 #include <cstdint>
 #include <vector>
-
+namespace mapgen
+{
 //See http://mrl.nyu.edu/~perlin/noise/
 class Perlin_noise
 {
@@ -24,5 +25,5 @@ private:
 
     std::vector<int32_t> permutation;
 };
-
+}
 #endif

@@ -5,8 +5,9 @@
 #include <map>
 #include <vector>
 
+namespace mapgen
+{
 template<class T>
-
 class probability_structure
 {
     std::map<biome_type, std::vector<std::pair<site_type, T>>> prob_strcuture{};
@@ -39,13 +40,14 @@ public:
         return prob_strcuture.size();
     }
 
-    std::vector<biome_type> get_all_biomes()  
+    std::vector<biome_type> get_all_biomes()
     {
         std::vector<biome_type> biomes;
         for (auto& v : prob_strcuture)
             biomes.push_back(v.first);
         return biomes;
     }
-    
+
 };
+}
 #endif

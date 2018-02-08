@@ -29,7 +29,7 @@ int main()
     std::cin >> height;
     std::cout << std::endl;
 
-    Perlin_noise perl(seed);
+    mapgen::Perlin_noise perl(seed);
 
     std::vector<std::vector<double>> v(width, std::vector<double>(height));
 
@@ -43,10 +43,10 @@ int main()
         }
     }
 
-    map m(width, height, seed);
+    mapgen::map m(width, height, seed);
     m.set_biome_by_noise(0.5, 1, std::less<double>(), v);
 
-    probability_structure<int16_t> struc;
+    mapgen::probability_structure<int16_t> struc;
     struc.set_biome_and_site_occurence(0, { {1,40}, {2,50} });
     struc.set_biome_and_site_occurence(1, { { 3,20 },{ 4,20 } });
     m.generate_by_random_points(100, { {1,2,3,4} }, 400, 400);

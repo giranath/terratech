@@ -42,7 +42,7 @@ enum {
 	BIOME_COUNT
 };
 
-std::vector<Perlin_noise> prepare_noises(std::size_t count, uint32_t seed);
+std::vector<mapgen::Perlin_noise> prepare_noises(std::size_t count, uint32_t seed);
 mapgen::biome_table create_biomes_table();
 std::map<int, rgb> create_biome_color_mapping();
 
@@ -167,8 +167,8 @@ int main(int argc, char* argv[]) {
    image.write(file);
 }
 
-std::vector<Perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
-	std::vector<Perlin_noise> noises;
+std::vector<mapgen::Perlin_noise> prepare_noises(std::size_t count, uint32_t seed) {
+	std::vector<mapgen::Perlin_noise> noises;
 	for(std::size_t i = 0; i < count; ++i) {
 		noises.emplace_back(seed + i);
 	}

@@ -8,6 +8,8 @@
 #include <random>
 #include <cstdint>
 
+namespace mapgen
+{
 class uniform_ressource_distribution_by_point
 {
     using dimension_type = size_t;
@@ -27,5 +29,6 @@ public:
     }
 
 };
+}
 #endif // !DEF_RESSOURCE_GENERATOR_BY_POINTS_H
 
