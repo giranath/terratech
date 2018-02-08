@@ -7,9 +7,9 @@ namespace mapgen
 map::map(column_type width, row_type height, uint32_t seed) :
     width{ width },
     height{ height },
-    engine{ seed },
+    regions{ width,std::vector<region>(height) },
     biomes_count{ { 0, height * width } },
-    regions{ width,std::vector<region>(height) }
+    engine{ seed }
 {
 }
 
