@@ -102,7 +102,7 @@ if (BUILD_WEBPAGE)
 
 	if(${BASH_FOUND})
 		add_custom_target(deploy
-		                  COMMAND ${BASH_EXECUTABLE} "script/deploy.sh"
+		                  COMMAND ${BASH_EXECUTABLE} "script/deploy.sh /srv/terratech"
 		                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		                  COMMENT "Deploying library"
 		                  VERBATIM)
