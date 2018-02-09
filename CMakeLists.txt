@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 14)
 option(BUILD_DOC "Generate documentation")
 option(BUILD_TEST "Build tests")
 option(BUILD_PACKAGE "Generate distribution packages")
+option(BUILD_WEBPAGE "Generate Web pages")
 
 configure_file("${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake.in"
                "${CMAKE_SOURCE_DIR}/mapgen-config-version.cmake"
@@ -72,10 +73,10 @@ if (BUILD_TEST)
 	add_subdirectory(test)
 endif ()
 
-set(ADD_DOC_DEP false)
 #==========================================================================
 # DOCUMENTATION 
 #==========================================================================
+set(INSTALL_DOC_COMPONENT OFF)
 if (BUILD_DOC)
 	# To generate the documentation, Doxygen is required
 	find_package(Doxygen)
@@ -94,9 +95,21 @@ if (BUILD_DOC)
 		install(DIRECTORY ${CMAKE_BINARY_DIR}/generated_doc/html
 		        DESTINATION share
 		        COMPONENT documentation)
-		set(ADD_DOC_DEP true)
+		set(INSTALL_DOC_COMPONENT ON)
 	endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
+
+if (BUILD_WEBPAGE)
+	configure_file("${CMAKE_SOURCE_DIR}/doc/web/index.html.in" "${CMAKE_SOURCE_DIR}/doc/web/index.html")
+	configure_file("${CMAKE_SOURCE_DIR}/doc/web/download.html.in" "${CMAKE_SOURCE_DIR}/doc/web/download.html")
+	configure_file("${CMAKE_SOURCE_DIR}/doc/project_info.txt.in" "${CMAKE_SOURCE_DIR}/doc/project_info.txt")
+
+	add_custom_target(deploy
+	                  COMMAND ./script/deploy.sh /srv/terratech
+	                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	                  COMMENT "Deploying library"
+	                  VERBATIM)
+endif(BUILD_WEBPAGE)
 
 #==========================================================================
 # PACKAGING
@@ -111,8 +124,6 @@ if (BUILD_PACKAGE)
 	set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 	set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 	set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
-
-	set(CPACK_COMPONENTS_ALL libraries headers cmake documentation)
 
 	set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "Public headers")
 	set(CPACK_COMPONENT_HEADERS_DESCRIPTION "Installs the librarie's public headers.")
@@ -129,6 +140,12 @@ if (BUILD_PACKAGE)
 	set(CPACK_COMPONENT_DOCUMENTATION_DISPLAY_NAME "Documentation")
 	set(CPACK_COMPONENT_DOCUMENTATION_DESCRIPTION "Installs the library's official documentation")
 	set(CPACK_COMPONENT_DOCUMENTATION_REQUIRED False)
+
+	if(NOT INSTALL_DOC_COMPONENT)
+		set(CPACK_COMPONENTS_ALL libraries headers cmake)
+	else()
+		set(CPACK_COMPONENTS_ALL libraries headers cmake documentation)
+	endif()
 
 	if(WIN32 AND NOT UNIX)
 		set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Download ${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">TerraTech</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doc/current/index.html">Documentation</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="download.html">Download</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Download links -->
+        <h1>Download ${CMAKE_PROJECT_NAME} v.${PROJECT_VERSION}</h1>
+        <h2>Binary distribution</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Windows</td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/windows/mapgen-${PROJECT_VERSION}.exe">Exe installer(.exe)</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Linux</td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.Z">Compressed tar(.tar.Z)</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mac OS X</td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.pkg">Installation package(.pkg)</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

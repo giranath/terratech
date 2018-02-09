@@ -1,6 +1,11 @@
 # MapGenerator
 A map generation library for game development.
 
+## Download
+To download the latest compiled binaries, go to [the project's official website](http://dinf-prj-12.dinf.fsci.usherbrooke.ca/download.html)
+
+NOTE: The website is not accessible outside the University's network.
+
 ### Prerequistes
 * CMake
 * A C++11 compatible compiler
