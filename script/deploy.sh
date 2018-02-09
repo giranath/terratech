@@ -12,10 +12,12 @@ echo "preparing destination directories..."
 if [ -d "$DOWNLOAD_PATH" ]; then
     rm -rf "$DOWNLOAD_PATH" || exit
 fi
+mkdir -p "$DOWNLOAD_PATH" || exit
 
 if [ -d "$DOC_PATH" ]; then
     rm -rf "$DOC_PATH" || exit
 fi
+mkdir -p "$DOC_PATH" || exit
 
 echo "installing documentation..."
 mv build-doc/generated_doc/html/* "$DOC_PATH" || exit
