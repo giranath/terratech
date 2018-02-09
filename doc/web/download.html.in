@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="doc/index.html">Documentation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doc/current/index.html">Documentation</a></li>
                     <li class="nav-item active"><a class="nav-link" href="download.html">Download</a></li>
                 </ul>
             </div>
@@ -54,9 +54,9 @@
                     <td>Mac OS X</td>
                     <td>
                         <ul>
-                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
-                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
-                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.pkg">Installation package(.pkg)</a></li>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
+                            <li><a href="download/current/osx/mapgen-${PROJECT_VERSION}.pkg">Installation package(.pkg)</a></li>
                         </ul>
                     </td>
                 </tr>
