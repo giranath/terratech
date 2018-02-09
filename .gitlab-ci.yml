@@ -251,11 +251,11 @@ deploy:
   variables:
     ROOT: /srv/terratech
   before_script:
-    - cmake -E remove_directory build
-    - cmake -E make_directory build
+    - cmake -E remove_directory build-deploy
+    - cmake -E make_directory build-deploy
   script:
-    - cmake -E chdir build cmake -DBUILD_SHARED_LIBS=ON -DBUILD_WEBPAGE=ON -DCMAKE_BUILD_TYPE=Release ..
-    - cmake --build build --target deploy
+    - cmake -E chdir build-deploy cmake -DBUILD_SHARED_LIBS=ON -DBUILD_WEBPAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake --build build-deploy --target deploy
   dependencies:
     - packaging:windows
     - packaging:osx
