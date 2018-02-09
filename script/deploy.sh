@@ -6,7 +6,7 @@ DOC_PREFIX="doc"
 VERSION=$(grep -e '^version:' doc/project_info.txt | cut -d ' ' -f2)
 
 DOWNLOAD_PATH="$1/$DOWNLOAD_PREFIX/$VERSION"
-DOC_PATH="$1/$DOWNLOAD_PREFIX/$VERSION"
+DOC_PATH="$1/$DOC_PREFIX/$VERSION"
 
 echo "preparing destination directories..."
 if [ -d "$DOWNLOAD_PATH" ]; then
