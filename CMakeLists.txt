@@ -94,9 +94,19 @@ if (BUILD_DOC)
 endif(BUILD_DOC)
 
 if (BUILD_WEBPAGE)
+	find_package(BASH)
+
 	configure_file("${CMAKE_SOURCE_DIR}/doc/web/index.html.in" "${CMAKE_SOURCE_DIR}/doc/web/index.html")
 	configure_file("${CMAKE_SOURCE_DIR}/doc/web/download.html.in" "${CMAKE_SOURCE_DIR}/doc/web/download.html")
 	configure_file("${CMAKE_SOURCE_DIR}/doc/project_info.txt.in" "${CMAKE_SOURCE_DIR}/doc/project_info.txt")
+
+	if(${BASH_FOUND})
+		add_custom_target(deploy
+		                  COMMAND ${BASH_EXECUTABLE} "script/deploy.sh"
+		                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		                  COMMENT "Deploying library"
+		                  VERBATIM)
+	endif()
 endif(BUILD_WEBPAGE)
 
 #==========================================================================
