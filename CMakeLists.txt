@@ -98,13 +98,11 @@ if (BUILD_WEBPAGE)
 	configure_file("${CMAKE_SOURCE_DIR}/doc/web/download.html.in" "${CMAKE_SOURCE_DIR}/doc/web/download.html")
 	configure_file("${CMAKE_SOURCE_DIR}/doc/project_info.txt.in" "${CMAKE_SOURCE_DIR}/doc/project_info.txt")
 
-	if(${BASH_FOUND})
-		add_custom_target(deploy
-		                  COMMAND ./script/deploy.sh /srv/terratech
-		                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		                  COMMENT "Deploying library"
-		                  VERBATIM)
-	endif()
+	add_custom_target(deploy
+	                  COMMAND ./script/deploy.sh /srv/terratech
+	                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	                  COMMENT "Deploying library"
+	                  VERBATIM)
 endif(BUILD_WEBPAGE)
 
 #==========================================================================
