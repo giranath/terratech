@@ -34,45 +34,33 @@
             <tbody>
                 <tr>
                     <td>Windows</td>
-                    <td></td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/windows/mapgen-${PROJECT_VERSION}.exe">Exe installer(.exe)</a></li>
+                        </ul>
+                    </td>
                 </tr>
                 <tr>
                     <td>Linux</td>
-                    <td></td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.Z">Compressed tar(.tar.Z)</a></li>
+                        </ul>
+                    </td>
                 </tr>
                 <tr>
                     <td>Mac OS X</td>
-                    <td></td>
+                    <td>
+                        <ul>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.sh">Shell install script(.sh)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.tar.gz">Compressed tar(.tar.gz)</a></li>
+                            <li><a href="download/current/linux/mapgen-${PROJECT_VERSION}.pkg">Installation package(.pkg)</a></li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
-        <h2>Source distribution</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Format</th>
-                    <th>Files</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Compressed tar archive (.tgz)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Tar archive (.tar)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Zip archive (.zip)</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <p>Or you can clone the <a href="https://minla.dinf.usherbrooke.ca/projets/mmap">git repository</a></p>
-
-        <h2>Older versions</h2>
-        <p>Add links to older versions</p>
     </body>
 </html>

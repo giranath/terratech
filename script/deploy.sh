@@ -36,9 +36,9 @@ mv build/mapgen-$VERSION-Linux.tar.gz "$DOWNLOAD_PATH/linux/mapgen-$VERSION.tar.
 
 echo "  for Mac OS X"
 mkdir -p "$DOWNLOAD_PATH/osx" || exit
-mv build/mapgen-$VERSION-Darwin.sh "$DOWNLOAD_PATH/linux/mapgen-$VERSION.sh" || exit
-mv build/mapgen-$VERSION-Darwin.pkg "$DOWNLOAD_PATH/linux/mapgen-$VERSION.pkg" || exit
-mv build/mapgen-$VERSION-Darwin.tar.gz "$DOWNLOAD_PATH/linux/mapgen-$VERSION.tar.gz" || exit
+mv build/mapgen-$VERSION-Darwin.sh "$DOWNLOAD_PATH/osx/mapgen-$VERSION.sh" || exit
+mv build/mapgen-$VERSION-Darwin.pkg "$DOWNLOAD_PATH/osx/mapgen-$VERSION.pkg" || exit
+mv build/mapgen-$VERSION-Darwin.tar.gz "$DOWNLOAD_PATH/osx/mapgen-$VERSION.tar.gz" || exit
 
 echo "installing web application..."
 mv doc/web/*.html "$ROOT_PATH" || exit
