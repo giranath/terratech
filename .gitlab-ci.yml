@@ -29,9 +29,9 @@ stages:
     - cmake -E chdir build cmake --build . --target package
   dependencies:
     - generate API documentation
-#  only:
-#    - develop
-#    - master
+  only:
+    - develop
+    - master
 
 .sanitation:no warnings: &no_warns_definition
   stage: sanitation
@@ -205,9 +205,9 @@ generate API documentation:
   dependencies: []
   tags:
     - documentation
-#  only:
-#    - develop
-#    - master
+  only:
+    - develop
+    - master
 
 #===========================================================================
 # PACKAGING
@@ -261,8 +261,8 @@ deploy:
     - packaging:osx
     - packaging:linux
     - generate API documentation
-#  only:
-#    - develop
-#    - master
+  only:
+    - develop
+    - master
   tags:
     - deployment
