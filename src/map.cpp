@@ -106,16 +106,16 @@ void map::set_biome_with_table()
 
 biome_type map::get_biome_at(const column_type& x, const row_type& y) const
 {
-    return regions[width][height].get_biome();
+    return regions[x][y].get_biome();
 }
 
-bool map::has_site_at(const column_type& width, const row_type& height, const site_type& site_id)
+bool map::has_site_at(const column_type& x, const row_type& y, const site_type& site_id)
 {
-    return regions[width][height].has_site(site_id);
+    return regions[x][y].has_site(site_id);
 }
-bool map::has_a_site_at(const column_type& width, const row_type& height)
+bool map::has_a_site_at(const column_type& x, const row_type& y)
 {
-    return regions[width][height].has_a_site();
+    return regions[x][y].has_a_site();
 }
 
 
