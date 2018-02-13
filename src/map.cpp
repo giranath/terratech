@@ -129,7 +129,7 @@ void map::generate_by_random_points(const uint16_t& number_of_ressoure, const st
     uniform_ressource_distribution_by_point distribution(ressources_id, width_size, height_size);
     for (uint16_t i = 0; i < number_of_ressoure; ++i)
     {
-        std::pair<point<size_t>, uint16_t> p = distribution(engine);
+        std::pair<point<size_t>, site_type> p = distribution(engine);
         regions[p.first.x][p.first.y].add_site(p.second);
     }
 }
