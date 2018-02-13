@@ -126,7 +126,7 @@ std::vector<site_type> map::get_sites_at(const column_type& x, const row_type& y
 
 void map::generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width_size, const size_t& height_size)
 {
-    uniform_ressource_distribution_by_point distribution(ressources_id, width, height);
+    uniform_ressource_distribution_by_point distribution(ressources_id, width_size, height_size);
     for (uint16_t i = 0; i < number_of_ressoure; ++i)
     {
         std::pair<point<size_t>, uint16_t> p = distribution(engine);
