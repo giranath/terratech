@@ -172,7 +172,7 @@ void map::generate_by_elimination(probability_structure<int16_t>& site_bag)
     while (!distributions.empty())
     {
 
-        uint16_t biome = regions[p.x][p.y].get_biome();
+        biome_type biome = regions[p.x][p.y].get_biome();
         auto it = find_if(distributions.begin(), distributions.end(), [&biome](std::pair<biome_type, elimination_distribution<site_type>>& value) {
             return biome == value.first;
         });
