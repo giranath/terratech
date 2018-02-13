@@ -3,6 +3,7 @@ stages:
   - sanitation           # Execute some sanitation tests on the code
   - doc                  # Generates the documentation
   - packaging            # Packages the project
+  - deploy               # Deploys the library on a website
 
 #===========================================================================
 # TEMPLATES
@@ -226,9 +227,9 @@ packaging:osx:
   <<: *package_definition
   artifacts:
     paths:
-    - build/mapgen-*-Darwin.sh
-    - build/mapgen-*-Darwin.tar.gz
-    - build/mapgen-*-Darwin.pkg
+      - build/mapgen-*-Darwin.sh
+      - build/mapgen-*-Darwin.tar.gz
+      - build/mapgen-*-Darwin.pkg
     expire_in: 1 week
   tags:
     - osx
@@ -237,7 +238,31 @@ packaging:windows:
   <<: *package_definition
   artifacts:
     paths:
-    - build/mapgen-*-win32.exe
+      - build/mapgen-*-win32.exe
     expire_in: 1 week
   tags:
     - windows
+
+#===========================================================================
+# DEPLOY
+#===========================================================================
+deploy:
+  stage: deploy
+  variables:
+    ROOT: /srv/terratech
+  before_script:
+    - cmake -E remove_directory build-deploy
+    - cmake -E make_directory build-deploy
+  script:
+    - cmake -E chdir build-deploy cmake -DBUILD_SHARED_LIBS=ON -DBUILD_WEBPAGE=ON -DCMAKE_BUILD_TYPE=Release ..
+    - cmake --build build-deploy --target deploy
+  dependencies:
+    - packaging:windows
+    - packaging:osx
+    - packaging:linux
+    - generate API documentation
+  only:
+    - develop
+    - master
+  tags:
+    - deployment
