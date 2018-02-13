@@ -2,6 +2,9 @@
 #include "../include/uniform_ressource_distribution_by_point.hpp"
 #include "../include/weighted_distribution.hpp"
 #include "../include/elimination_distribution.hpp"
+
+#include <cmath>
+
 namespace mapgen
 {
 map::map(column_type width, row_type height, uint32_t seed) :
@@ -10,6 +13,32 @@ map::map(column_type width, row_type height, uint32_t seed) :
     regions{ width,std::vector<region>(height) },
     biomes_count{ { 0, height * width } },
     engine{ seed }
+{
+}
+
+map::map(column_type width, row_type height, uint32_t seed, const mapgen::biome_table& biome_tab):
+    width{ width },
+    height{ height },
+    regions{ width,std::vector<region>(height) },
+    biomes_count{ { 0, height * width } },
+    engine{ seed },
+    biome_tab{ biome_tab },
+    temperature_noise{seed},
+    humidity_noise{ seed + 1},
+    altitude_noise{ seed + 2 }
+{
+}
+map::map(column_type width, row_type height, uint32_t seed, const mapgen::biome_table& biome_tab, mapgen::biome_axis altitude_tab) :
+    width{ width },
+    height{ height },
+    regions{ width,std::vector<region>(height) },
+    biomes_count{ { 0, height * width } },
+    engine{ seed },
+    biome_tab{ biome_tab },
+    altitude_tab{ altitude_tab },
+    temperature_noise{ seed },
+    humidity_noise{seed +1},
+    altitude_noise{seed + 2}
 {
 }
 
@@ -54,7 +83,28 @@ void map::set_biome_at(const column_type& x, const column_type& y, const biome_t
     biomes_count[biome_id] = ++biomes_count[biome_id];
 }
 
-biome_type map::get_biome_at(const column_type& width, const row_type& height) const
+void map::set_biome_with_table()
+{
+    for (column_type i = 0; i < width; ++i)
+    {
+        for (row_type j = 0; j < height; ++j)
+        {
+            double altitude = altitude_noise.octave_noise(static_cast<double>(i) / width, static_cast<double>(j) / height, 0.0, 8, 0.5);
+            biome_type biome_altitude = altitude_tab.biome_with(std::abs(altitude));
+            if (biome_altitude == mapgen::biome_axis::NO_SPECIAL_BIOME) {
+                double col = temperature_noise.octave_noise(static_cast<double>(i) / width, static_cast<double>(j) / height, 0.0, 8, 0.5);
+                double row = humidity_noise.octave_noise(static_cast<double>(i) / width, static_cast<double>(j) / height, 0.0, 8, 0.5);
+                set_biome_at(i, j, biome_tab.biome_with(col, row));
+            }
+            else
+            {
+                set_biome_at(i, j, biome_altitude);
+            }
+        }
+    }
+}
+
+biome_type map::get_biome_at(const column_type& x, const row_type& y) const
 {
     return regions[width][height].get_biome();
 }
@@ -68,7 +118,13 @@ bool map::has_a_site_at(const column_type& width, const row_type& height)
     return regions[width][height].has_a_site();
 }
 
-void map::generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width, const size_t& height)
+
+std::vector<site_type> map::get_sites_at(const column_type& x, const row_type& y)
+{
+    return regions[x][y].get_sites();
+}
+
+void map::generate_by_random_points(const uint16_t& number_of_ressoure, const std::vector<site_type>& ressources_id, const size_t& width_size, const size_t& height_size)
 {
     uniform_ressource_distribution_by_point distribution(ressources_id, width, height);
     for (uint16_t i = 0; i < number_of_ressoure; ++i)

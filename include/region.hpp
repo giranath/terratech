@@ -38,6 +38,10 @@ public:
     {
         return !sites.empty();
     }
+    std::vector<site_type> get_sites()
+    {
+        return sites;
+    }
 };
 }
 #endif
